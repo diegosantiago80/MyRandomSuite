@@ -14,6 +14,13 @@
         .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .dark .glass-card { background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.1); }
         .input-focus:focus { outline: none; border-color: #be185d; box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.15); }
+        
+        /* Animación Modal */
+        .modal-blur { animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
     <script>
         tailwind.config = {
@@ -37,16 +44,20 @@
             </div>
             <span class="text-lg md:text-xl font-bold tracking-tight">Inversor<span class="text-magenta-600">Pro</span></span>
         </div>
-        <button id="themeToggle" class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-gray-200 dark:border-slate-700 transition-all">
-            <i data-lucide="sun" class="hidden dark:block w-5 h-5 text-yellow-400"></i>
-            <i data-lucide="moon" class="block dark:hidden w-5 h-5 text-slate-600"></i>
-        </button>
+        <div class="flex items-center gap-2">
+            <button onclick="toggleHelp()" class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-gray-200 dark:border-slate-700 hover:text-magenta-600 transition-all">
+                <i data-lucide="help-circle" class="w-5 h-5"></i>
+            </button>
+            <button id="themeToggle" class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-gray-200 dark:border-slate-700 transition-all">
+                <i data-lucide="sun" class="hidden dark:block w-5 h-5 text-yellow-400"></i>
+                <i data-lucide="moon" class="block dark:hidden w-5 h-5 text-slate-600"></i>
+            </button>
+        </div>
     </nav>
 
     <main class="max-w-6xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         <section class="lg:col-span-8 order-1 lg:order-2 space-y-6">
-            
             <div class="magenta-gradient p-6 md:p-8 rounded-[2rem] text-white shadow-2xl relative overflow-hidden">
                 <div class="relative z-10">
                     <div class="flex items-center gap-2 mb-1 opacity-90">
@@ -84,17 +95,6 @@
                     <canvas id="investmentChart"></canvas>
                 </div>
             </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass-card p-4 rounded-2xl border-b-4 border-b-slate-400">
-                    <p class="text-[9px] text-gray-500 dark:text-gray-400 uppercase font-bold mb-1">Tu Inversión</p>
-                    <p id="totalInvested" class="text-lg font-bold text-slate-700 dark:text-slate-200">$0.00</p>
-                </div>
-                <div class="glass-card p-4 rounded-2xl border-b-4 border-b-magenta-500">
-                    <p class="text-[9px] text-magenta-600 uppercase font-bold mb-1">Ganancia Bruta</p>
-                    <p id="grossProfit" class="text-lg font-bold text-magenta-700 dark:text-magenta-400">$0.00</p>
-                </div>
-            </div>
         </section>
 
         <section class="lg:col-span-4 order-2 lg:order-1 space-y-6">
@@ -102,19 +102,15 @@
                 <h2 class="text-lg font-bold mb-6 flex items-center gap-2">
                     <i data-lucide="sliders" class="text-magenta-600 w-5 h-5"></i> Configuración
                 </h2>
-                
                 <div class="space-y-5">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                        <div>
-                            <label class="block text-[11px] font-bold mb-1.5 text-gray-500 uppercase">Capital Inicial</label>
-                            <input type="number" id="principal" value="1000" class="w-full p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-lg font-bold input-focus transition-all">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold mb-1.5 text-gray-500 uppercase">Aporte Mensual</label>
-                            <input type="number" id="contribution" value="100" class="w-full p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-lg font-bold input-focus transition-all">
-                        </div>
+                    <div>
+                        <label class="block text-[11px] font-bold mb-1.5 text-gray-500 uppercase">Capital Inicial</label>
+                        <input type="number" id="principal" value="1000" class="w-full p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-lg font-bold input-focus transition-all">
                     </div>
-
+                    <div>
+                        <label class="block text-[11px] font-bold mb-1.5 text-gray-500 uppercase">Aporte Mensual</label>
+                        <input type="number" id="contribution" value="100" class="w-full p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-lg font-bold input-focus transition-all">
+                    </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-gray-100 dark:bg-slate-900/50 p-3 rounded-2xl">
                             <label class="block text-[10px] font-bold mb-1 text-magenta-600 uppercase">Tasa (%)</label>
@@ -125,37 +121,57 @@
                             <input type="number" id="inflation" value="4" step="0.1" class="w-full bg-transparent text-lg font-bold text-orange-500 outline-none">
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-[11px] font-bold mb-2 text-gray-500 uppercase">Horizonte (Años): <span id="yearVal" class="text-magenta-600">10</span></label>
                         <input type="range" id="years" min="1" max="40" value="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-magenta-600" oninput="document.getElementById('yearVal').innerText = this.value">
                     </div>
-
                     <button onclick="calculate()" class="w-full magenta-gradient text-white font-bold py-4 rounded-2xl shadow-xl hover:brightness-110 active:scale-95 transition-all text-lg mt-2 flex items-center justify-center gap-2">
                         Simular Inversión <i data-lucide="zap" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
-
-            <div class="hidden lg:block p-6 rounded-[2rem] bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-                <h4 class="text-sm font-bold mb-2 flex items-center gap-2">
-                    <i data-lucide="info" class="w-4 h-4 text-blue-500"></i> ¿Qué estamos viendo?
-                </h4>
-                <p class="text-xs text-slate-500 leading-relaxed">
-                    El <strong>Valor Real</strong> ajusta tu ganancia futura al costo de vida actual. Si la inflación es igual a tu tasa de interés, tu patrimonio crece en números pero tu riqueza se mantiene estancada.
-                </p>
-            </div>
         </section>
     </main>
+
+    <div id="helpModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 modal-blur">
+        <div class="bg-white dark:bg-slate-800 max-w-md w-full p-8 rounded-[2.5rem] shadow-2xl relative border border-gray-200 dark:border-white/10">
+            <button onclick="toggleHelp()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 dark:hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                <i data-lucide="lightbulb" class="text-magenta-600 w-6 h-6"></i> Guía Pro
+            </h2>
+            <div class="space-y-5 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                <div class="flex gap-4">
+                    <span class="w-6 h-6 rounded-lg bg-magenta-100 dark:bg-magenta-900/30 text-magenta-600 flex items-center justify-center font-bold shrink-0">1</span>
+                    <p><strong>Configura tu escenario:</strong> Ingresa cuánto tienes hoy, cuánto ahorrarás por mes y la rentabilidad esperada.</p>
+                </div>
+                <div class="flex gap-4">
+                    <span class="w-6 h-6 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center font-bold shrink-0">2</span>
+                    <p><strong>Factor Inflación:</strong> Este es el asesino silencioso. Ajusta el % para ver cuánto valdrá ese dinero "en moneda de hoy".</p>
+                </div>
+                <div class="flex gap-4">
+                    <span class="w-6 h-6 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center font-bold shrink-0">3</span>
+                    <p><strong>La Brecha:</strong> La línea naranja (Real) vs la Magenta (Nominal) te muestra cuánta riqueza real estás generando por encima del costo de vida.</p>
+                </div>
+            </div>
+            <button onclick="toggleHelp()" class="mt-8 w-full magenta-gradient text-white font-bold py-4 rounded-xl">Entendido</button>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
 
-        // Theme Toggle Logic
+        function toggleHelp() {
+            const modal = document.getElementById('helpModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.documentElement.classList.toggle('dark');
-            setTimeout(calculate, 50); // Pequeño delay para que Chart.js tome los nuevos colores
+            setTimeout(calculate, 50);
         });
 
         let chart;
@@ -183,10 +199,8 @@
             for (let i = 1; i <= months; i++) {
                 totalNominal = (totalNominal + PMT) * (1 + monthlyRate);
                 totalInvested += PMT;
-                // Valor deflactado (Valor real en moneda de hoy)
                 const currentRealValue = totalNominal / Math.pow(1 + monthlyInflation, i);
 
-                // Guardamos puntos para el gráfico (cada 12 meses o al final)
                 if (i % 12 === 0 || i === months) {
                     labels.push(i % 12 === 0 ? `Añ ${i/12}` : 'Fin');
                     totalData.push(totalNominal.toFixed(2));
@@ -200,11 +214,8 @@
             const grossProfit = finalNominal - totalInvested;
             const inflationImpact = finalNominal - finalReal;
 
-            // Update UI
             document.getElementById('realValue').innerText = '$' + finalReal.toLocaleString('es-AR', {maximumFractionDigits: 0});
             document.getElementById('totalBalance').innerText = '$' + finalNominal.toLocaleString('es-AR', {maximumFractionDigits: 0});
-            document.getElementById('totalInvested').innerText = '$' + totalInvested.toLocaleString('es-AR', {maximumFractionDigits: 0});
-            document.getElementById('grossProfit').innerText = '$' + grossProfit.toLocaleString('es-AR', {maximumFractionDigits: 0});
             document.getElementById('inflationLoss').innerText = '-$' + inflationImpact.toLocaleString('es-AR', {maximumFractionDigits: 0});
 
             updateChart(labels, totalData, realData, capitalData);
@@ -214,9 +225,7 @@
             const isDark = document.documentElement.classList.contains('dark');
             const colorText = isDark ? '#94a3b8' : '#64748b';
             const colorGrid = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
-
             if (chart) chart.destroy();
-
             chart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -232,16 +241,12 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { 
-                            grid: { color: colorGrid }, 
-                            ticks: { color: colorText, font: { size: 10 }, callback: v => '$' + (v >= 1e6 ? (v/1e6).toFixed(1) + 'M' : (v/1e3).toFixed(0) + 'k') }
-                        },
+                        y: { grid: { color: colorGrid }, ticks: { color: colorText, font: { size: 10 }, callback: v => '$' + (v >= 1e6 ? (v/1e6).toFixed(1) + 'M' : (v/1e3).toFixed(0) + 'k') } },
                         x: { grid: { display: false }, ticks: { color: colorText, font: { size: 9 } } }
                     }
                 }
             });
         }
-
         window.onload = calculate;
     </script>
 </body>

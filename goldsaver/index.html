@@ -60,6 +60,14 @@
             border-color: var(--gold) !important;
             box-shadow: 0 0 0 4px var(--gold-glow);
         }
+
+        /* Help Panel Animation */
+        #help-panel {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #help-panel.hidden-panel {
+            transform: translateX(100%);
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -145,12 +153,70 @@
 
 <div id="toast" class="fixed bottom-6 right-6 bg-yellow-500 text-black px-6 py-4 rounded-2xl font-black shadow-2xl z-[101] hidden transform translate-y-20 transition-all duration-300"></div>
 
+<button onclick="toggleHelp()" class="fixed bottom-6 left-6 z-[110] bg-white/10 hover:bg-yellow-500 text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all border border-white/10">
+    <i data-lucide="help-circle"></i>
+</button>
+
+<div id="help-panel" class="fixed top-0 right-0 h-full w-full md:w-[400px] glass-card z-[120] border-l border-yellow-500/30 p-8 overflow-y-auto hidden-panel">
+    <div class="flex justify-between items-center mb-10">
+        <h2 class="text-2xl font-black text-yellow-500 italic">GUÍA GOLDSAVER</h2>
+        <button onclick="toggleHelp()" class="text-gray-500 hover:text-white transition-colors">
+            <i data-lucide="x-circle"></i>
+        </button>
+    </div>
+
+    <div class="space-y-8">
+        <section>
+            <h3 class="flex items-center gap-2 font-black text-sm uppercase tracking-widest mb-4">
+                <i data-lucide="target" class="w-4 h-4 text-yellow-500"></i> ¿Qué es GoldSaver?
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Es un <strong>visualizador de activos</strong> diseñado para proyectar y seguir tus metas de ahorro. Aunque su estética es dorada, está pensado para cualquier divisa o bien que desees acumular.
+            </p>
+        </section>
+
+        <section>
+            <h3 class="flex items-center gap-2 font-black text-sm uppercase tracking-widest mb-4">
+                <i data-lucide="trending-up" class="w-4 h-4 text-yellow-500"></i> Capital vs Interés
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-3">
+                La aplicación separa visualmente lo que tú depositas de lo que generas por rendimientos (TNA).
+            </p>
+            <ul class="space-y-2 text-xs text-gray-500">
+                <li class="flex gap-2"><i data-lucide="check" class="w-3 h-3 text-yellow-500"></i> <b>Capital:</b> Dinero que inyectas manualmente.</li>
+                <li class="flex gap-2"><i data-lucide="check" class="w-3 h-3 text-yellow-500"></i> <b>Interés:</b> La diferencia acumulada que registra el sistema.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3 class="flex items-center gap-2 font-black text-sm uppercase tracking-widest mb-4">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-yellow-500"></i> Analíticas de Bóveda
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Al girar la tarjeta (clic en Analíticas), verás un gráfico de barras que muestra la composición de tu ahorro actual. Esto te ayuda a entender cuánto de tu meta se está cumpliendo gracias a tu esfuerzo y cuánto gracias al mercado.
+            </p>
+        </section>
+
+        <div class="p-4 bg-yellow-500/10 rounded-2xl border border-yellow-500/20">
+            <p class="text-[10px] text-yellow-500 font-bold uppercase mb-1">Nota de Privacidad</p>
+            <p class="text-[10px] text-gray-500 leading-tight">
+                Tus datos se guardan localmente en el navegador (Local Storage). No subimos tu información financiera a ningún servidor.
+            </p>
+        </div>
+    </div>
+</div>
+
 <script>
     let goals = JSON.parse(localStorage.getItem('gs_premium_v2')) || [];
 
     function init() {
         lucide.createIcons();
         render();
+    }
+
+    function toggleHelp() {
+        const panel = document.getElementById('help-panel');
+        panel.classList.toggle('hidden-panel');
     }
 
     function showToast(msg) {
@@ -300,7 +366,7 @@
                                 </div>
                             </div>
 
-                            <button onclick="toggleFlip(${m.id})" class="w-full bg-white text-black font-black py-3 rounded-xl mt-4 text-xs uppercase">VOLVAR A PANEL</button>
+                            <button onclick="toggleFlip(${m.id})" class="w-full bg-white text-black font-black py-3 rounded-xl mt-4 text-xs uppercase">VOLVER A PANEL</button>
                         </div>
                     </div>
                 </div>`;

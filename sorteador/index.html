@@ -15,209 +15,248 @@
             background-color: #020617; 
             user-select: none;
             overflow-x: hidden;
+            color: #e2e8f0;
         }
 
         .win-gradient { background: linear-gradient(135deg, #2e1065 0%, #0f172a 100%); }
         .podium-card { background: linear-gradient(135deg, #451a03 0%, #0f172a 100%); border: 1px solid #78350f; }
         
-        /* Zona de seguridad para capturas móviles */
+        /* Ajuste para evitar cortes en la captura */
         .capture-safe-zone {
-            padding: 30px 20px !important; 
-            overflow: visible !important;
-            min-width: 320px;
+            padding: 50px 30px !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
         }
 
-        .safe-text { 
-            line-height: 1.4; 
-            word-break: break-word;
+        .winner-display-name {
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 900;
+            color: white;
+            word-wrap: break-word;
+            text-align: center;
+            width: 100%;
+            margin: 20px 0;
             display: block;
         }
 
-        /* Animación suave para la aparición de ganadores */
-        .winner-entry {
-            animation: slideUp 0.4s ease forwards;
+        #helpPanel {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
         }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        #helpPanel.closed { transform: translateX(100%); }
+        
+        .panel-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-blur: sm;
+            display: none;
+            z-index: 900;
         }
+        .panel-overlay.visible { display: block; }
 
-        /* Ocultar scrollbar en textarea */
         textarea::-webkit-scrollbar { width: 4px; }
         textarea::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <div class="max-w-xl w-full bg-slate-900/40 border border-slate-800/50 p-6 md:p-10 rounded-[2.5rem] shadow-2xl backdrop-blur-xl my-8">
+    <button onclick="toggleHelp()" class="fixed bottom-6 right-6 w-12 h-12 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full shadow-2xl z-[100] flex items-center justify-center font-bold text-xl border border-cyan-400/50 transition-transform active:scale-90">
+        ?
+    </button>
+
+    <div id="overlay" class="panel-overlay" onclick="toggleHelp()"></div>
+    <div id="helpPanel" class="fixed top-0 right-0 h-full w-80 bg-slate-900 border-l border-slate-800 p-8 closed shadow-2xl overflow-y-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h3 class="text-cyan-400 font-black uppercase text-xs tracking-widest italic">Centro de Ayuda</h3>
+            <button onclick="toggleHelp()" class="text-slate-500 hover:text-white text-2xl">×</button>
+        </div>
         
-        <header class="text-center mb-10">
-            <h1 class="text-3xl md:text-4xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent italic">
+        <div class="space-y-8">
+            <div>
+                <p class="text-xs font-black text-slate-300 uppercase tracking-tighter mb-2 italic">1. Participantes</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">Pega tu lista de nombres en el recuadro principal. Asegúrate de que cada participante ocupe una línea distinta (usa la tecla Enter).</p>
+            </div>
+            <div>
+                <p class="text-xs font-black text-slate-300 uppercase tracking-tighter mb-2 italic">2. Configuración</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">Ajusta el número de ganadores totales. Si marcas "Limpiar Duplicados", el sistema borrará automáticamente los nombres repetidos de tu lista.</p>
+            </div>
+            <div>
+                <p class="text-xs font-black text-slate-300 uppercase tracking-tighter mb-2 italic">3. Sorteo y Captura</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">Presiona "Lanzar Sorteo". Al finalizar, puedes descargar el resultado como imagen PNG optimizada para compartir en tus historias o redes sociales.</p>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <button onclick="clearHistory()" class="w-full py-3 bg-red-900/20 hover:bg-red-900/40 text-red-500 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-red-900/30 transition-colors">
+                Reiniciar App / Borrar Memoria
+            </button>
+        </div>
+
+        <div class="mt-10 p-4 bg-cyan-500/5 rounded-2xl border border-cyan-500/10 text-center">
+            <p class="text-[9px] text-cyan-400/60 font-bold uppercase tracking-widest">Random Media Studio v2.0</p>
+        </div>
+    </div>
+
+    <div class="max-w-xl w-full bg-slate-900/60 border border-slate-800 p-6 md:p-10 rounded-[2.5rem] shadow-2xl backdrop-blur-md relative">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-black italic bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">
                 Random Media Studio
             </h1>
-            <div class="flex items-center justify-center gap-2 mt-3">
-                <span class="h-[1px] w-8 bg-slate-800"></span>
-                <p class="text-slate-500 font-bold uppercase text-[9px] tracking-[0.4em]">Sorteador Pro v2.0</p>
-                <span class="h-[1px] w-8 bg-slate-800"></span>
-            </div>
+            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.4em] mt-2">Sorteador Pro v2.0</p>
         </header>
 
-        <div class="space-y-6" id="setupArea">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800">
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Cant. Ganadores</label>
-                    <input type="number" id="totalWinners" min="1" max="50" value="1" 
-                        class="w-full bg-transparent text-2xl text-cyan-400 font-black focus:outline-none">
+        <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <label class="text-[10px] text-slate-500 font-black uppercase block mb-1">Cant. Ganadores</label>
+                    <input type="number" id="totalWinners" min="1" value="1" class="bg-transparent text-xl text-cyan-400 font-black outline-none w-full">
                 </div>
-                
-                <div class="flex items-center justify-between bg-slate-950/50 p-4 rounded-2xl border border-slate-800">
-                    <label for="cleanDuplicates" class="text-[10px] text-slate-500 uppercase font-black tracking-widest cursor-pointer">Limpiar Duplicados</label>
-                    <input type="checkbox" id="cleanDuplicates" onchange="updateCount()" class="w-5 h-5 accent-cyan-500 rounded-lg cursor-pointer">
+                <div class="flex items-center justify-between bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <label for="cleanDuplicates" class="text-[10px] text-slate-500 font-black uppercase cursor-pointer">Limpiar Duplicados</label>
+                    <input type="checkbox" id="cleanDuplicates" class="w-5 h-5 accent-cyan-500 rounded cursor-pointer" checked>
                 </div>
             </div>
 
             <div class="relative">
                 <textarea id="participants" oninput="updateCount()"
-                    class="w-full h-48 p-5 bg-slate-950/80 border border-slate-800 rounded-[1.5rem] outline-none resize-none text-slate-300 text-sm focus:border-cyan-500/50 transition-all shadow-inner"
-                    placeholder="Escribe o pega los nombres (uno por línea)..."></textarea>
-                <div id="countDisplay" class="absolute bottom-4 right-4 text-[9px] bg-cyan-500/10 text-cyan-400 px-3 py-1 rounded-full font-black uppercase tracking-tighter">
-                    0 Participantes
+                    class="w-full h-40 p-5 bg-slate-950 border border-slate-800 rounded-3xl outline-none resize-none text-sm focus:border-cyan-500/50 transition-all"
+                    placeholder="Escribe o pega los nombres aquí..."></textarea>
+                <div id="countDisplay" class="absolute bottom-4 right-4 text-[9px] bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full font-bold uppercase">
+                    0 PARTICIPANTES
                 </div>
             </div>
         </div>
 
         <button onclick="startRaffle()" id="drawButton"
-            class="w-full mt-8 py-5 bg-gradient-to-r from-cyan-600 to-violet-600 hover:from-cyan-500 hover:to-violet-500 text-white font-black rounded-2xl transition-all transform active:scale-95 uppercase tracking-[0.2em] text-xs shadow-lg shadow-cyan-900/20">
+            class="w-full mt-6 py-5 bg-gradient-to-r from-cyan-600 to-violet-600 text-white font-black rounded-2xl uppercase tracking-widest text-xs shadow-lg hover:brightness-110 active:scale-[0.98] transition-all relative z-50">
             Lanzar Sorteo
         </button>
 
-        <div id="captureArea" class="hidden mt-8 p-1 bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 rounded-3xl shadow-2xl overflow-hidden">
-            <div class="win-gradient rounded-[1.4rem] text-center capture-safe-zone">
-                <h3 id="statusLabel" class="text-cyan-400 font-black uppercase tracking-[0.4em] text-[10px] mb-6 opacity-80">Sorteando...</h3>
-                <div id="winnerName" class="text-3xl md:text-5xl font-black text-white mb-6 min-h-[1.2em] safe-text px-4"></div>
-                <div class="flex items-center justify-center gap-3 opacity-30">
-                    <div class="h-[1px] w-4 bg-white"></div>
-                    <div class="text-[8px] text-white font-bold uppercase tracking-widest">Random Media Studio</div>
-                    <div class="h-[1px] w-4 bg-white"></div>
-                </div>
+        <div id="captureArea" class="hidden mt-8 p-1 bg-gradient-to-r from-cyan-500 to-fuchsia-500 rounded-3xl overflow-hidden">
+            <div class="win-gradient rounded-[1.4rem] capture-safe-zone">
+                <span id="statusLabel" class="text-cyan-400 font-black uppercase text-[10px] tracking-widest mb-2">Ganador</span>
+                <div id="winnerName" class="winner-display-name"></div>
+                <div class="text-[8px] text-white/30 font-bold tracking-[0.3em]">RANDOM MEDIA STUDIO</div>
             </div>
         </div>
 
-        <div id="finalCaptureArea" class="hidden mt-8 p-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-orange-500 rounded-3xl shadow-2xl overflow-hidden">
-            <div class="podium-card rounded-[1.4rem] text-center capture-safe-zone">
-                <h3 class="text-amber-400 font-black uppercase tracking-[0.5em] text-[11px] mb-8 italic">🏆 Cuadro de Honor</h3>
-                <div id="finalWinnersList" class="space-y-3 mb-8 px-2"></div>
-                <div class="text-[8px] text-slate-500 font-bold uppercase tracking-[0.3em]">Certificado por Random Media Studio</div>
+        <div id="finalCaptureArea" class="hidden mt-8 p-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl overflow-hidden">
+            <div class="podium-card rounded-[1.4rem] p-8">
+                <h3 class="text-amber-400 font-black uppercase text-center text-xs tracking-widest mb-6">🏆 Cuadro de Honor</h3>
+                <div id="finalWinnersList" class="space-y-3 mb-6 px-2"></div>
+                <p class="text-center text-[8px] text-slate-500 font-bold tracking-widest uppercase">Certificado por Random Media Studio</p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
-            <button id="downloadBtn" onclick="downloadResult()" 
-                class="hidden py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-[10px] font-black transition-all uppercase tracking-widest flex items-center justify-center gap-2">
-                <span>📥 Descargar PNG</span>
+        <div class="grid grid-cols-2 gap-3 mt-6">
+            <button id="downloadBtn" onclick="downloadResult()" class="hidden py-4 bg-slate-800 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition-colors">
+                📥 Descargar PNG
             </button>
-            <button id="resetBtn" onclick="clearHistory()" 
-                class="hidden py-4 border border-slate-800 hover:bg-red-950/20 hover:border-red-900 text-slate-500 hover:text-red-500 rounded-xl text-[10px] font-black transition-all uppercase tracking-widest">
+            <button id="resetBtn" onclick="clearHistory()" class="hidden py-4 border border-slate-800 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-950/20 hover:text-red-500 transition-all">
                 Reiniciar
             </button>
         </div>
-
     </div>
 
     <script>
         const drumRoll = new Audio('https://assets.mixkit.co/active_storage/sfx/2012/2012-preview.mp3');
         const winSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3');
-        
+
+        function toggleHelp() {
+            document.getElementById('helpPanel').classList.toggle('closed');
+            document.getElementById('overlay').classList.toggle('visible');
+        }
+
         function updateCount() {
-            const text = document.getElementById('participants').value;
-            let lines = text.split('\n').filter(p => p.trim() !== "");
-            if (document.getElementById('cleanDuplicates').checked) lines = [...new Set(lines)];
-            document.getElementById('countDisplay').innerText = `${lines.length} PARTICIPANTES`;
+            const val = document.getElementById('participants').value;
+            let list = val.split('\n').filter(n => n.trim() !== "");
+            if (document.getElementById('cleanDuplicates').checked) list = [...new Set(list)];
+            document.getElementById('countDisplay').innerText = `${list.length} PARTICIPANTES`;
         }
 
         function startRaffle() {
-            const total = parseInt(document.getElementById('totalWinners').value);
-            const history = JSON.parse(localStorage.getItem('winnerHistory')) || [];
+            const total = parseInt(document.getElementById('totalWinners').value) || 1;
+            const history = JSON.parse(localStorage.getItem('winnerHistory') || "[]");
             
-            if (history.length >= total) return;
+            if (history.length >= total) {
+                alert("Sorteo completado. Presiona 'Reiniciar' para empezar uno nuevo.");
+                return;
+            }
 
-            let participants = document.getElementById('participants').value.split('\n').filter(p => p.trim() !== "");
-            if (document.getElementById('cleanDuplicates').checked) participants = [...new Set(participants)];
+            let input = document.getElementById('participants').value.trim();
+            if (!input) return alert("Por favor, ingresa una lista de participantes.");
+
+            let list = input.split('\n').filter(n => n.trim() !== "");
+            if (document.getElementById('cleanDuplicates').checked) list = [...new Set(list)];
             
-            const previousWinners = history.map(h => h.name);
-            participants = participants.filter(p => !previousWinners.includes(p));
+            const prevNames = history.map(h => h.name);
+            const pool = list.filter(n => !prevNames.includes(n));
 
-            if (participants.length < 1) return alert("¡No hay más participantes disponibles!");
+            if (pool.length === 0) return alert("No quedan más nombres disponibles para sortear.");
 
-            const drawButton = document.getElementById('drawButton');
-            drawButton.disabled = true;
-            drawButton.classList.add('opacity-50');
+            const btn = document.getElementById('drawButton');
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
 
-            const puestoActual = history.length + 1;
-            document.getElementById('statusLabel').innerText = `Sorteando Ganador #${puestoActual}...`;
             document.getElementById('captureArea').classList.remove('hidden');
             document.getElementById('finalCaptureArea').classList.add('hidden');
             
-            drumRoll.play();
-            let counter = 0;
-            const interval = setInterval(() => {
-                document.getElementById('winnerName').innerText = participants[Math.floor(Math.random() * participants.length)];
-                if (++counter > 25) {
-                    clearInterval(interval);
-                    finalizeWinner(participants, puestoActual, total);
+            drumRoll.play().catch(e => console.log("Audio block"));
+            
+            let count = 0;
+            const timer = setInterval(() => {
+                document.getElementById('winnerName').innerText = pool[Math.floor(Math.random() * pool.length)];
+                if (++count > 20) {
+                    clearInterval(timer);
+                    finalize(pool, history, total);
                 }
-            }, 80);
+            }, 100);
         }
 
-        function finalizeWinner(list, puesto, total) {
+        function finalize(pool, history, total) {
             drumRoll.pause(); drumRoll.currentTime = 0;
-            winSound.play();
+            winSound.play().catch(e => console.log("Audio block"));
             
-            const winner = list[Math.floor(Math.random() * list.length)];
-            document.getElementById('winnerName').innerText = winner;
+            const win = pool[Math.floor(Math.random() * pool.length)];
+            document.getElementById('winnerName').innerText = win;
 
-            let history = JSON.parse(localStorage.getItem('winnerHistory')) || [];
-            history.push({ name: winner, puesto: puesto });
+            // Ajuste dinámico de fuente
+            const nameEl = document.getElementById('winnerName');
+            nameEl.style.fontSize = win.length > 20 ? "1.5rem" : win.length > 12 ? "2rem" : "3rem";
+
+            history.push({ name: win, puesto: history.length + 1 });
             localStorage.setItem('winnerHistory', JSON.stringify(history));
 
-            launchConfetti();
-            
-            document.getElementById('drawButton').disabled = false;
-            document.getElementById('drawButton').classList.remove('opacity-50');
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#22d3ee', '#8b5cf6', '#ffffff'] });
+
+            const btn = document.getElementById('drawButton');
+            btn.disabled = false;
+            btn.style.opacity = "1";
             document.getElementById('downloadBtn').classList.remove('hidden');
             document.getElementById('resetBtn').classList.remove('hidden');
 
             if (history.length >= total) {
-                document.getElementById('drawButton').innerText = "SORTEO COMPLETADO";
-                document.getElementById('drawButton').classList.replace('from-cyan-600', 'from-slate-700');
-                setTimeout(showFinalPodium, 1000);
+                btn.innerText = "SORTEO FINALIZADO";
+                setTimeout(showPodium, 1500);
             }
         }
 
-        function showFinalPodium() {
-            const history = JSON.parse(localStorage.getItem('winnerHistory')) || [];
-            const listContainer = document.getElementById('finalWinnersList');
-            
-            listContainer.innerHTML = history.map(h => `
-                <div class="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10 shadow-lg winner-entry">
-                    <span class="text-amber-400 font-black text-lg w-10 text-left">#${h.puesto}</span>
-                    <span class="text-white font-bold text-base md:text-lg flex-1 text-right truncate pl-4">${h.name}</span>
+        function showPodium() {
+            const history = JSON.parse(localStorage.getItem('winnerHistory') || "[]");
+            document.getElementById('finalWinnersList').innerHTML = history.map(h => `
+                <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10 shadow-lg">
+                    <span class="text-amber-400 font-black">#${h.puesto}</span>
+                    <span class="text-white font-bold truncate pl-4">${h.name}</span>
                 </div>
             `).join('');
-
             document.getElementById('captureArea').classList.add('hidden');
             document.getElementById('finalCaptureArea').classList.remove('hidden');
-        }
-
-        function launchConfetti() {
-            const end = Date.now() + 2 * 1000;
-            const colors = ['#22d3ee', '#8b5cf6', '#ffffff'];
-
-            (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
         }
 
         function clearHistory() {
@@ -226,23 +265,22 @@
         }
 
         async function downloadResult() {
-            const total = parseInt(document.getElementById('totalWinners').value);
-            const history = JSON.parse(localStorage.getItem('winnerHistory')) || [];
-            const isFinal = history.length >= total;
-            const elementId = isFinal ? 'finalCaptureArea' : 'captureArea';
-            const element = document.getElementById(elementId);
+            const isFinal = !document.getElementById('finalCaptureArea').classList.contains('hidden');
+            const target = isFinal ? document.getElementById('finalCaptureArea') : document.getElementById('captureArea');
             
-            const options = {
+            const canvas = await html2canvas(target, {
                 backgroundColor: '#020617',
-                scale: 2,
+                scale: 3,
                 useCORS: true,
-                logging: false,
-                borderRadius: 20
-            };
+                onclone: (clonedDoc) => {
+                    const el = clonedDoc.getElementById(isFinal ? 'finalCaptureArea' : 'captureArea');
+                    el.style.display = "block";
+                    el.style.overflow = "visible";
+                }
+            });
             
-            const canvas = await html2canvas(element, options);
             const link = document.createElement('a');
-            link.download = `Sorteo-${isFinal ? 'Final' : 'Parcial'}.png`;
+            link.download = `Sorteo-RMS-${new Date().getTime()}.png`;
             link.href = canvas.toDataURL("image/png");
             link.click();
         }

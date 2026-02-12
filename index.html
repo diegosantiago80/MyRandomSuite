@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMS Apps-Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: radial-gradient(circle at top right, #0a1622, #050a10);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-8px);
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen">
+
+    <div class="max-w-5xl mx-auto px-6 py-12 md:py-20">
+        <header class="mb-16 text-center md:text-left">
+            <div class="flex flex-col md:flex-row items-center md:items-end gap-5 mb-6">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-emerald-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                    <div class="relative w-16 h-16 rounded-2xl overflow-hidden border border-white/10 bg-[#050a10]">
+                        <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <div class="flex items-center justify-center md:justify-start gap-2 mb-1">
+                        <i data-lucide="layout-grid" class="text-emerald-500 w-4 h-4"></i>
+                        <span class="text-[10px] font-black tracking-[0.3em] text-emerald-500/70 uppercase">Workspace Central</span>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tighter italic">
+                        MY<span class="text-emerald-500">RANDOM</span>SUITE
+                    </h1>
+                </div>
+            </div>
+            <p class="text-slate-400 max-w-md mx-auto md:mx-0 text-sm md:text-base leading-relaxed">
+                Bienvenido al ecosistema personal de herramientas optimizadas por <span class="text-slate-200 font-semibold">Random Media</span>.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <a href="./arquitecto-prompts/" class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
+                <div class="bg-emerald-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-500 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all duration-300">
+                    <i data-lucide="cpu" class="text-emerald-500 w-7 h-7 group-hover:text-black transition-colors"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Prompt Architect</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-8">Librería profesional de estructuras y generador de prompts avanzados para roles específicos.</p>
+                <div class="mt-auto flex items-center text-emerald-500 text-[10px] font-black tracking-[0.2em] uppercase">
+                    Lanzar Aplicación <i data-lucide="chevron-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <div class="glass-card p-8 rounded-[2.5rem] flex flex-col opacity-40 border-dashed border-white/10 cursor-not-allowed">
+                <div class="bg-slate-800/50 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
+                    <i data-lucide="plus" class="text-slate-600 w-7 h-7"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-slate-500">Próximamente</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-8">Agrega una nueva carpeta en GitHub para expandir tu ecosistema de herramientas.</p>
+            </div>
+
+        </div>
+
+        <footer class="mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <span class="text-[10px] text-slate-500 uppercase tracking-[0.4em]">Propiedad Privada &copy; 2026</span>
+            <span class="text-[10px] text-emerald-500/50 font-bold uppercase tracking-[0.2em]">Powered by Random Media Studio</span>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

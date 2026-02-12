@@ -17,6 +17,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
         }
         .glass-card:hover {
             background: rgba(255, 255, 255, 0.06);
@@ -28,7 +29,7 @@
 </head>
 <body class="text-slate-200 min-h-screen">
 
-    <div class="max-w-5xl mx-auto px-6 py-12 md:py-20">
+    <div class="max-w-6xl mx-auto px-6 py-12 md:py-20">
         <header class="mb-16 text-center md:text-left">
             <div class="flex flex-col md:flex-row items-center md:items-end gap-5 mb-6">
                 <div class="relative group">
@@ -37,7 +38,6 @@
                         <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
                     </div>
                 </div>
-
                 <div class="flex flex-col">
                     <div class="flex items-center justify-center md:justify-start gap-2 mb-1">
                         <i data-lucide="layout-grid" class="text-emerald-500 w-4 h-4"></i>
@@ -49,30 +49,77 @@
                 </div>
             </div>
             <p class="text-slate-400 max-w-md mx-auto md:mx-0 text-sm md:text-base leading-relaxed">
-                Bienvenido al ecosistema personal de herramientas optimizadas por <span class="text-slate-200 font-semibold">Random Media</span>.
+                Suite personal de herramientas optimizadas por <span class="text-slate-200 font-semibold">Random Media</span>.
             </p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             
             <a href="./prompt_architect/" class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
-                <div class="bg-emerald-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-500 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all duration-300">
-                    <i data-lucide="cpu" class="text-emerald-500 w-7 h-7 group-hover:text-black transition-colors"></i>
+                <div class="bg-emerald-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-500 transition-all">
+                    <i data-lucide="cpu" class="text-emerald-500 w-7 h-7 group-hover:text-black"></i>
                 </div>
                 <h3 class="text-xl font-bold mb-3">Prompt Architect</h3>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8">Librería profesional de estructuras y generador de prompts avanzados para roles específicos.</p>
-                <div class="mt-auto flex items-center text-emerald-500 text-[10px] font-black tracking-[0.2em] uppercase">
-                    Lanzar Aplicación <i data-lucide="chevron-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                <p class="text-slate-400 text-sm mb-8">Generador de prompts avanzados y estructuras profesionales.</p>
+                <div class="mt-auto flex items-center text-emerald-500 text-[10px] font-black tracking-widest uppercase">
+                    Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
                 </div>
             </a>
 
-            <div class="glass-card p-8 rounded-[2.5rem] flex flex-col opacity-40 border-dashed border-white/10 cursor-not-allowed">
-                <div class="bg-slate-800/50 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
-                    <i data-lucide="plus" class="text-slate-600 w-7 h-7"></i>
+            <a href="./calculadora_fire/" class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
+                <div class="bg-orange-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-500 transition-all">
+                    <i data-lucide="flame" class="text-orange-500 w-7 h-7 group-hover:text-black"></i>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-slate-500">Próximamente</h3>
-                <p class="text-slate-600 text-sm leading-relaxed mb-8">Agrega una nueva carpeta en GitHub para expandir tu ecosistema de herramientas.</p>
-            </div>
+                <h3 class="text-xl font-bold mb-3">Calculadora FIRE</h3>
+                <p class="text-slate-400 text-sm mb-8">Calcula tu ruta hacia la libertad financiera y el retiro temprano.</p>
+                <div class="mt-auto flex items-center text-orange-500 text-[10px] font-black tracking-widest uppercase">
+                    Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </a>
+
+            <a href="./calculadora_inversor_pro/" class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
+                <div class="bg-blue-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-all">
+                    <i data-lucide="trending-up" class="text-blue-500 w-7 h-7 group-hover:text-black"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Inversor Pro</h3>
+                <p class="text-slate-400 text-sm mb-8">Análisis detallado de rendimientos y proyecciones de inversión.</p>
+                <div class="mt-auto flex items-center text-blue-500 text-[10px] font-black tracking-widest uppercase">
+                    Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </a>
+
+            <a href="./goldsaver/" class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
+                <div class="bg-yellow-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-yellow-500 transition-all">
+                    <i data-lucide="coins" class="text-yellow-500 w-7 h-7 group-hover:text-black"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Gold Saver</h3>
+                <p class="text-slate-400 text-sm mb-8">Estrategias de ahorro y gestión de activos en metales.</p>
+                <div class="mt-auto flex items-center text-yellow-500 text-[10px] font-black tracking-widest uppercase">
+                    Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </a>
+
+            <a href="./calculadora_presupuesto/" class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
+                <div class="bg-purple-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-all">
+                    <i data-lucide="wallet" class="text-purple-500 w-7 h-7 group-hover:text-black"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Presupuesto</h3>
+                <p class="text-slate-400 text-sm mb-8">Control exhaustivo de ingresos y gastos mensuales.</p>
+                <div class="mt-auto flex items-center text-purple-500 text-[10px] font-black tracking-widest uppercase">
+                    Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </a>
+
+            <a href="./sorteador/" class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
+                <div class="bg-rose-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-rose-500 transition-all">
+                    <i data-lucide="ticket" class="text-rose-500 w-7 h-7 group-hover:text-black"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Sorteador</h3>
+                <p class="text-slate-400 text-sm mb-8">Herramienta rápida para sorteos y selección aleatoria.</p>
+                <div class="mt-auto flex items-center text-rose-500 text-[10px] font-black tracking-widest uppercase">
+                    Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                </div>
+            </a>
 
         </div>
 
@@ -86,5 +133,4 @@
         lucide.createIcons();
     </script>
 </body>
-
 </html>

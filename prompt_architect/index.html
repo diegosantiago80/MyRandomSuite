@@ -19,8 +19,7 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
         
-        /* Optimización para inputs móviles */
-        select, input, textarea { font-size: 16px !important; } /* Evita zoom automático en iOS */
+        select, input, textarea { font-size: 16px !important; }
 
         .input-custom-field { 
             animation: slideDown 0.3s ease-out forwards;
@@ -31,6 +30,14 @@
         }
         .toggle-checkbox:checked { right: 0; border-color: #10b981; }
         .toggle-checkbox:checked + .toggle-label { background-color: #10b981; }
+
+        /* Help Panel Animation */
+        #help-panel {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #help-panel.hidden-panel {
+            transform: translateX(100%);
+        }
     </style>
 </head>
 <body class="bg-[#f8faf9] dark:bg-slate-950 min-h-screen text-slate-900 dark:text-slate-100 font-['Inter']">
@@ -145,8 +152,66 @@
         <i data-lucide="check" class="w-4 h-4"></i> Copiado al portapapeles
     </div>
 
+    <button onclick="toggleHelp()" class="fixed bottom-8 right-8 z-[110] bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl border border-emerald-500/20 hover:scale-110 transition-all">
+        <i data-lucide="help-circle"></i>
+    </button>
+
+    <div id="help-panel" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-white dark:bg-slate-900 z-[120] border-l border-emerald-500/20 shadow-2xl hidden-panel overflow-y-auto custom-scrollbar p-8">
+        <div class="flex justify-between items-center mb-10">
+            <div>
+                <h2 class="text-2xl font-black text-emerald-600 italic">ARCHITECT GUIDE</h2>
+                <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Domina la Ingeniería de Prompts</p>
+            </div>
+            <button onclick="toggleHelp()" class="text-slate-400 hover:text-emerald-500 transition-colors">
+                <i data-lucide="x-circle" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <div class="space-y-8">
+            <section>
+                <h3 class="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-4 text-emerald-500">
+                    <i data-lucide="brain-circuit" class="w-4 h-4"></i> El Método Persona
+                </h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Asignar un <b>Rol Experto</b> no es solo estético. Obliga a la IA a priorizar el vocabulario técnico y los marcos de trabajo específicos de esa industria, reduciendo respuestas genéricas.
+                </p>
+            </section>
+
+            <section>
+                <h3 class="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-4 text-emerald-500">
+                    <i data-lucide="message-square" class="w-4 h-4"></i> Tono y Estilo
+                </h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700">
+                        <p class="text-xs font-bold mb-1">Analítico</p>
+                        <p class="text-[11px] text-slate-500">Ideal para código, datos y revisiones técnicas.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700">
+                        <p class="text-xs font-bold mb-1">Persuasivo</p>
+                        <p class="text-[11px] text-slate-500">Diseñado para ventas, marketing y comunicación ejecutiva.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-4 text-emerald-500">
+                    <i data-lucide="image" class="w-4 h-4"></i> Activos Visuales
+                </h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Si activas <b>Soporte Visual</b>, el prompt incluirá una instrucción para que la IA genere diagramas (Mermaid, ASCII o descripciones de diseño). Muy útil para procesos y arquitectura.
+                </p>
+            </section>
+
+            <div class="p-6 bg-emerald-600 rounded-[2rem] text-white">
+                <h4 class="font-black text-sm mb-2 italic">Tip de Arquitecto:</h4>
+                <p class="text-xs opacity-90 leading-relaxed">
+                    Usa el campo <b>Contexto Extra</b> para pegar ejemplos. Decirle a la IA: "Escribe esto siguiendo el estilo de este ejemplo: [pegar texto]" aumenta la precisión en un 40%.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // ... (Database igual que el original)
         const database = {
             admin: {
                 label: "Administración y Oficina",
@@ -200,6 +265,11 @@
 
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
+        }
+
+        function toggleHelp() {
+            const panel = document.getElementById('help-panel');
+            panel.classList.toggle('hidden-panel');
         }
 
         function handleGroupChange() {
@@ -310,7 +380,6 @@
             }, 2000);
         }
 
-        // Init
         window.onload = () => {
             handleGroupChange();
             lucide.createIcons();

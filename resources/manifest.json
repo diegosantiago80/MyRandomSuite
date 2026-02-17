@@ -1,23 +1,25 @@
 {
   "name": "RMS Apps-Hub",
   "short_name": "RMS Suite",
-  "description": "My Random Suite - Workspace Central",
+  "description": "Suite personal de herramientas optimizadas por Random Media Studio.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#050a10",
   "theme_color": "#050a10",
+  "orientation": "portrait",
+  "id": "com.randommediastudio.mysuite",
   "icons": [
     {
-      "src": "./logo.png",
+      "src": "./resources/logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./logo.png",
+      "src": "./resources/logo.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

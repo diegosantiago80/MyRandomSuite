@@ -12,27 +12,23 @@
 
     <link rel="stylesheet" href="./assets/css/fonts.css">
     
-
     <script src="./assets/js/tailwind.js"></script>
     <script src="./assets/js/lucide.js"></script>
 
-
     <style>
         body {
-        user-select: none;
-        -webkit-user-select: none;
-        cursor: default;
-        }
-    
-        input, textarea {
-        user-select: text;
-        -webkit-user-select: text;
-        }
-       
-        body { 
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: default;
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background: radial-gradient(circle at top right, #0a1622, #050a10);
         }
+    
+        input, textarea {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+       
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(12px);
@@ -54,11 +50,44 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Estilos de Salida */
+        .glitch-exit {
+            filter: hue-rotate(90deg) brightness(2) contrast(1.2);
+            transform: scale(1.02);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        #shutdown-screen {
+            transition: opacity 1s ease;
+        }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen">
 
-    <div class="max-w-6xl mx-auto px-6 py-12 md:py-20">
+    <button onclick="closeApp()" class="fixed top-6 right-6 z-[100] flex items-center gap-3 bg-red-500/10 hover:bg-red-600 text-red-500 hover:text-white px-4 py-2.5 rounded-2xl backdrop-blur-xl transition-all duration-300 border border-red-500/20 text-[10px] font-black uppercase tracking-widest group">
+        <span>Cerrar Sistema</span>
+        <div class="bg-red-500/20 rounded-lg p-1 group-hover:bg-white/20 transition-colors">
+            <i data-lucide="power" class="w-4 h-4"></i>
+        </div>
+    </button>
+
+    <div id="shutdown-screen" class="fixed inset-0 z-[200] bg-[#050a10] flex flex-col items-center justify-center opacity-0 pointer-events-none">
+        <div class="relative">
+            <div class="absolute inset-0 bg-emerald-500/20 blur-[100px] animate-pulse"></div>
+            <img src="logo.png" id="exit-logo" class="w-32 h-32 rounded-full border border-white/10 relative z-10 scale-50 opacity-0 transition-all duration-1000 ease-out" alt="Logo">
+        </div>
+        <div class="mt-8 text-center relative z-10">
+            <h2 id="exit-title" class="text-white font-black italic text-2xl tracking-tighter opacity-0 translate-y-4 transition-all duration-700">
+                RANDOM <span class="text-emerald-500">MEDIA</span> STUDIO
+            </h2>
+            <p id="exit-subtitle" class="text-slate-500 text-[10px] uppercase tracking-[0.5em] mt-3 opacity-0 translate-y-4 transition-all duration-700">
+                Finalizando sesión de usuario...
+            </p>
+        </div>
+    </div>
+
+    <main id="main-layout" class="max-w-6xl mx-auto px-6 py-12 md:py-20 transition-all duration-500">
         <header class="mb-16 text-center md:text-left">
             <div class="flex flex-col md:flex-row items-center md:items-end gap-5 mb-6">
                 <div class="relative group">
@@ -84,7 +113,6 @@
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            
             <div class="glass-card p-8 rounded-[2.5rem] flex flex-col group">
                 <button onclick="toggleHelp(this)" class="absolute top-6 right-6 text-slate-500 hover:text-emerald-500 transition-colors z-10">
                     <i data-lucide="help-circle" class="w-5 h-5"></i>
@@ -104,7 +132,7 @@
                         <li>• Copia el resultado y pégalo en tu IA favorita.</li>
                     </ul>
                 </div>
-                <a href="./prompt_architect/" class="mt-auto flex items-center text-emerald-500 text-[10px] font-black tracking-widest uppercase">
+                <a href="./resources/prompt_architect/" class="mt-auto flex items-center text-emerald-500 text-[10px] font-black tracking-widest uppercase">
                     Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
                 </a>
             </div>
@@ -128,7 +156,7 @@
                         <li>• Ajusta según tu ahorro mensual actual.</li>
                     </ul>
                 </div>
-                <a href="./calculadora_fire/" class="mt-auto flex items-center text-orange-500 text-[10px] font-black tracking-widest uppercase">
+                <a href="./resources/calculadora_fire/" class="mt-auto flex items-center text-orange-500 text-[10px] font-black tracking-widest uppercase">
                     Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
                 </a>
             </div>
@@ -149,10 +177,9 @@
                     <ul class="text-slate-300 text-xs space-y-2 mb-6">
                         <li>• Simula interés compuesto a largo plazo.</li>
                         <li>• Compara diferentes escenarios de retorno.</li>
-                        <li>• Analiza el impacto de las comisiones.</li>
                     </ul>
                 </div>
-                <a href="./calculadora_inversor_pro/" class="mt-auto flex items-center text-blue-500 text-[10px] font-black tracking-widest uppercase">
+                <a href="./resources/calculadora_inversor_pro/" class="mt-auto flex items-center text-blue-500 text-[10px] font-black tracking-widest uppercase">
                     Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
                 </a>
             </div>
@@ -172,11 +199,10 @@
                     <h4 class="text-yellow-500 text-xs font-bold uppercase mb-3">Instrucciones:</h4>
                     <ul class="text-slate-300 text-xs space-y-2 mb-6">
                         <li>• Ingresa una meta de ahorro.</li>
-                        <li>• Coloca capital inicial, tasa, aporte mensual.</li>
-                        <li>• visualiza el cumplimiento de tu meta.</li>
+                        <li>• Visualiza el cumplimiento de tu meta.</li>
                     </ul>
                 </div>
-                <a href="./goldsaver/" class="mt-auto flex items-center text-yellow-500 text-[10px] font-black tracking-widest uppercase">
+                <a href="./resources/goldsaver/" class="mt-auto flex items-center text-yellow-500 text-[10px] font-black tracking-widest uppercase">
                     Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
                 </a>
             </div>
@@ -190,17 +216,16 @@
                         <i data-lucide="briefcase" class="text-purple-500 w-7 h-7 group-hover:text-black"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Presupuesto</h3>
-                    <p class="text-slate-400 text-sm mb-8 desc">Calcula tu tarifa horaria ideal y presupuesta tus proyectos con precisión.</p>
+                    <p class="text-slate-400 text-sm mb-8 desc">Calcula tu tarifa horaria ideal y presupuesta tus proyectos.</p>
                 </div>
                 <div class="help-content flex-1">
                     <h4 class="text-purple-500 text-xs font-bold uppercase mb-3">Instrucciones:</h4>
                     <ul class="text-slate-300 text-xs space-y-2 mb-6">
-                        <li>• Suma tus gastos fijos y ahorro deseado.</li>
-                        <li>• Divide por tus horas reales de trabajo neto.</li>
-                        <li>• Usa el resultado como base mínima de cobro.</li>
+                        <li>• Suma tus gastos fijos y ahorro.</li>
+                        <li>• Obtén tu base mínima de cobro.</li>
                     </ul>
                 </div>
-                <a href="./calculadora_presupuesto/" class="mt-auto flex items-center text-purple-500 text-[10px] font-black tracking-widest uppercase">
+                <a href="./resources/calculadora_presupuesto/" class="mt-auto flex items-center text-purple-500 text-[10px] font-black tracking-widest uppercase">
                     Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
                 </a>
             </div>
@@ -219,29 +244,24 @@
                 <div class="help-content flex-1">
                     <h4 class="text-rose-500 text-xs font-bold uppercase mb-3">Instrucciones:</h4>
                     <ul class="text-slate-300 text-xs space-y-2 mb-6">
-                        <li>• Pega la lista de participantes o números.</li>
-                        <li>• Elige la cantidad de ganadores.</li>
-                        <li>• Presiona 'Sortear' para un resultado justo.</li>
+                        <li>• Pega la lista de participantes.</li>
+                        <li>• Elige cantidad de ganadores.</li>
+                        <li>• Descarga el resultado en PNG.</li>
                     </ul>
                 </div>
-                <a href="./sorteador/" class="mt-auto flex items-center text-rose-500 text-[10px] font-black tracking-widest uppercase">
+                <a href="./resources/sorteador/" class="mt-auto flex items-center text-rose-500 text-[10px] font-black tracking-widest uppercase">
                     Lanzar <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
                 </a>
             </div>
-
         </div>
 
         <footer class="mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
             <span class="text-[10px] text-slate-500 uppercase tracking-[0.4em]">Propiedad Privada &copy; 2026</span>
             <span class="text-[10px] text-emerald-500/50 font-bold uppercase tracking-[0.2em]">Powered by Random Media Studio</span>
         </footer>
-    </div>
+    </main>
 
     <script>
- 
-        // ==========================================
-        // LÓGICA DE ICONOS Y AYUDA
-        // ==========================================
         lucide.createIcons();
 
         function toggleHelp(btn) {
@@ -259,8 +279,55 @@
                 btn.classList.add('text-white');
             }
         }
+
+        function closeApp() {
+            const main = document.getElementById('main-layout');
+            const shutdown = document.getElementById('shutdown-screen');
+            const logo = document.getElementById('exit-logo');
+            const title = document.getElementById('exit-title');
+            const subtitle = document.getElementById('exit-subtitle');
+
+            // 1. Efecto inicial de glitch
+            document.body.classList.add('glitch-exit');
+            
+            setTimeout(() => {
+                // 2. Apagar la interfaz principal
+                main.style.opacity = '0';
+                main.style.transform = 'scale(0.95)';
+                
+                // 3. Mostrar pantalla de salida
+                shutdown.classList.remove('opacity-0', 'pointer-events-none');
+                shutdown.classList.add('opacity-100');
+
+                // 4. Animación secuencial de elementos
+                setTimeout(() => {
+                    logo.style.transform = 'scale(1) rotate(360deg)';
+                    logo.style.opacity = '1';
+                }, 400);
+
+                setTimeout(() => {
+                    title.classList.remove('opacity-0', 'translate-y-4');
+                    title.classList.add('opacity-100', 'translate-y-0');
+                }, 800);
+
+                setTimeout(() => {
+                    subtitle.classList.remove('opacity-0', 'translate-y-4');
+                    subtitle.classList.add('opacity-100', 'translate-y-0');
+                }, 1100);
+
+                // 5. Intento de cierre o limpieza final
+                setTimeout(() => {
+                    // Intenta cerrar la pestaña
+                    window.close();
+                    
+                    // Si el navegador bloquea el cierre, dejar pantalla negra limpia
+                    setTimeout(() => {
+                        shutdown.innerHTML = '<div class="text-white/10 text-[8px] tracking-[1em] uppercase">Sistema Desconectado</div>';
+                    }, 2000);
+                }, 4500);
+
+            }, 300);
+        }
     </script>
 </body>
 </html>
-
-

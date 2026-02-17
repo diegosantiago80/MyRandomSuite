@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Media Studio | Sorteador Pro</title>
+    <script src="../assets/js/tailwind.js"></script>
+    <script src="../assets/js/html2canvas.js"></script>
+    <script src="../assets/js/confetti.js"></script>
+    <script src="../assets/js/lucide.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+    
+    <style>
+        
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #020617; 
+            user-select: none;
+            overflow-x: hidden;
+            color: #e2e8f0;
+        }
+
+        .win-gradient { background: linear-gradient(135deg, #2e1065 0%, #0f172a 100%); }
+        .podium-card { background: linear-gradient(135deg, #451a03 0%, #0f172a 100%); border: 1px solid #78350f; }
+        
+        /* Ajuste para evitar cortes en la captura */
+        .capture-safe-zone {
+            padding: 50px 30px !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .winner-display-name {
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 900;
+            color: white;
+            word-wrap: break-word;
+            text-align: center;
+            width: 100%;
+            margin: 20px 0;
+            display: block;
+        }
+
+        #helpPanel {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+        #helpPanel.closed { transform: translateX(100%); }
+        
+        .panel-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-blur: sm;
+            display: none;
+            z-index: 900;
+        }
+        .panel-overlay.visible { display: block; }
+
+        textarea::-webkit-scrollbar { width: 4px; }
+        textarea::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+<a href="../index.html" class="fixed top-5 left-5 z-[100] flex items-center gap-3 bg-slate-900/40 hover:bg-emerald-600 dark:hover:bg-cyan-600 text-white/90 px-4 py-2.5 rounded-2xl backdrop-blur-xl transition-all duration-300 border border-white/10 text-xs font-black uppercase tracking-widest shadow-2xl group">
+    <div class="bg-white/10 rounded-lg p-1 group-hover:bg-white/20 transition-colors">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+    </div>
+    <span>Dashboard</span>
+</a>
+
+    <button onclick="toggleHelp()" class="fixed bottom-6 right-6 w-12 h-12 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full shadow-2xl z-[100] flex items-center justify-center font-bold text-xl border border-cyan-400/50 transition-transform active:scale-90">
+        ?
+    </button>
+
+    <div id="overlay" class="panel-overlay" onclick="toggleHelp()"></div>
+    <div id="helpPanel" class="fixed top-0 right-0 h-full w-80 bg-slate-900 border-l border-slate-800 p-8 closed shadow-2xl overflow-y-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h3 class="text-cyan-400 font-black uppercase text-xs tracking-widest italic">Centro de Ayuda</h3>
+            <button onclick="toggleHelp()" class="text-slate-500 hover:text-white text-2xl">×</button>
+        </div>
+        
+        <div class="space-y-8">
+            <div>
+                <p class="text-xs font-black text-slate-300 uppercase tracking-tighter mb-2 italic">1. Participantes</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">Pega tu lista de nombres en el recuadro principal. Asegúrate de que cada participante ocupe una línea distinta (usa la tecla Enter).</p>
+            </div>
+            <div>
+                <p class="text-xs font-black text-slate-300 uppercase tracking-tighter mb-2 italic">2. Configuración</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">Ajusta el número de ganadores totales. Si marcas "Limpiar Duplicados", el sistema borrará automáticamente los nombres repetidos de tu lista.</p>
+            </div>
+            <div>
+                <p class="text-xs font-black text-slate-300 uppercase tracking-tighter mb-2 italic">3. Sorteo y Captura</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">Presiona "Lanzar Sorteo". Al finalizar, puedes descargar el resultado como imagen PNG optimizada para compartir en tus historias o redes sociales.</p>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <button onclick="clearHistory()" class="w-full py-3 bg-red-900/20 hover:bg-red-900/40 text-red-500 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-red-900/30 transition-colors">
+                Reiniciar App / Borrar Memoria
+            </button>
+        </div>
+
+        <div class="mt-10 p-4 bg-cyan-500/5 rounded-2xl border border-cyan-500/10 text-center">
+            <p class="text-[9px] text-cyan-400/60 font-bold uppercase tracking-widest">Random Media Studio v2.0</p>
+        </div>
+    </div>
+
+    <div class="max-w-xl w-full bg-slate-900/60 border border-slate-800 p-6 md:p-10 rounded-[2.5rem] shadow-2xl backdrop-blur-md relative">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-black italic bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">
+                Random Media Studio
+            </h1>
+            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.4em] mt-2">Sorteador Pro v2.0</p>
+        </header>
+
+        <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <label class="text-[10px] text-slate-500 font-black uppercase block mb-1">Cant. Ganadores</label>
+                    <input type="number" id="totalWinners" min="1" value="1" class="bg-transparent text-xl text-cyan-400 font-black outline-none w-full">
+                </div>
+                <div class="flex items-center justify-between bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <label for="cleanDuplicates" class="text-[10px] text-slate-500 font-black uppercase cursor-pointer">Limpiar Duplicados</label>
+                    <input type="checkbox" id="cleanDuplicates" class="w-5 h-5 accent-cyan-500 rounded cursor-pointer" checked>
+                </div>
+            </div>
+
+            <div class="relative">
+                <textarea id="participants" oninput="updateCount()"
+                    class="w-full h-40 p-5 bg-slate-950 border border-slate-800 rounded-3xl outline-none resize-none text-sm focus:border-cyan-500/50 transition-all"
+                    placeholder="Escribe o pega los nombres aquí..."></textarea>
+                <div id="countDisplay" class="absolute bottom-4 right-4 text-[9px] bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full font-bold uppercase">
+                    0 PARTICIPANTES
+                </div>
+            </div>
+        </div>
+
+        <button onclick="startRaffle()" id="drawButton"
+            class="w-full mt-6 py-5 bg-gradient-to-r from-cyan-600 to-violet-600 text-white font-black rounded-2xl uppercase tracking-widest text-xs shadow-lg hover:brightness-110 active:scale-[0.98] transition-all relative z-50">
+            Lanzar Sorteo
+        </button>
+        <footer class="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
+            <span class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">powered by Random media studio</span>
+            <img src="../logo.png" class="w-6 h-6 rounded-full border text-magenta-600 p-0.5" alt="RMS">
+        </footer>
+
+        <div id="captureArea" class="hidden mt-8 p-1 bg-gradient-to-r from-cyan-500 to-fuchsia-500 rounded-3xl overflow-hidden">
+            <div class="win-gradient rounded-[1.4rem] capture-safe-zone">
+                <span id="statusLabel" class="text-cyan-400 font-black uppercase text-[10px] tracking-widest mb-2">Ganador</span>
+                <div id="winnerName" class="winner-display-name"></div>
+                <div class="text-[8px] text-white/30 font-bold tracking-[0.3em]">RANDOM MEDIA STUDIO</div>
+            </div>
+        </div>
+
+        <div id="finalCaptureArea" class="hidden mt-8 p-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl overflow-hidden">
+            <div class="podium-card rounded-[1.4rem] p-8">
+                <h3 class="text-amber-400 font-black uppercase text-center text-xs tracking-widest mb-6">🏆 Cuadro de Honor</h3>
+                <div id="finalWinnersList" class="space-y-3 mb-6 px-2"></div>
+                <p class="text-center text-[8px] text-slate-500 font-bold tracking-widest uppercase">Certificado por Random Media Studio</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mt-6">
+            <button id="downloadBtn" onclick="downloadResult()" class="hidden py-4 bg-slate-800 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition-colors">
+                📥 Descargar PNG
+            </button>
+            <button id="resetBtn" onclick="clearHistory()" class="hidden py-4 border border-slate-800 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-950/20 hover:text-red-500 transition-all">
+                Reiniciar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const drumRoll = new Audio('https://assets.mixkit.co/active_storage/sfx/2012/2012-preview.mp3');
+        const winSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3');
+
+        function toggleHelp() {
+            document.getElementById('helpPanel').classList.toggle('closed');
+            document.getElementById('overlay').classList.toggle('visible');
+        }
+
+        function updateCount() {
+            const val = document.getElementById('participants').value;
+            let list = val.split('\n').filter(n => n.trim() !== "");
+            if (document.getElementById('cleanDuplicates').checked) list = [...new Set(list)];
+            document.getElementById('countDisplay').innerText = `${list.length} PARTICIPANTES`;
+        }
+
+        function startRaffle() {
+            const total = parseInt(document.getElementById('totalWinners').value) || 1;
+            const history = JSON.parse(localStorage.getItem('winnerHistory') || "[]");
+            
+            if (history.length >= total) {
+                alert("Sorteo completado. Presiona 'Reiniciar' para empezar uno nuevo.");
+                return;
+            }
+
+            let input = document.getElementById('participants').value.trim();
+            if (!input) return alert("Por favor, ingresa una lista de participantes.");
+
+            let list = input.split('\n').filter(n => n.trim() !== "");
+            if (document.getElementById('cleanDuplicates').checked) list = [...new Set(list)];
+            
+            const prevNames = history.map(h => h.name);
+            const pool = list.filter(n => !prevNames.includes(n));
+
+            if (pool.length === 0) return alert("No quedan más nombres disponibles para sortear.");
+
+            const btn = document.getElementById('drawButton');
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+
+            document.getElementById('captureArea').classList.remove('hidden');
+            document.getElementById('finalCaptureArea').classList.add('hidden');
+            
+            drumRoll.play().catch(e => console.log("Audio block"));
+            
+            let count = 0;
+            const timer = setInterval(() => {
+                document.getElementById('winnerName').innerText = pool[Math.floor(Math.random() * pool.length)];
+                if (++count > 20) {
+                    clearInterval(timer);
+                    finalize(pool, history, total);
+                }
+            }, 100);
+        }
+
+        function finalize(pool, history, total) {
+            drumRoll.pause(); drumRoll.currentTime = 0;
+            winSound.play().catch(e => console.log("Audio block"));
+            
+            const win = pool[Math.floor(Math.random() * pool.length)];
+            document.getElementById('winnerName').innerText = win;
+
+            // Ajuste dinámico de fuente
+            const nameEl = document.getElementById('winnerName');
+            nameEl.style.fontSize = win.length > 20 ? "1.5rem" : win.length > 12 ? "2rem" : "3rem";
+
+            history.push({ name: win, puesto: history.length + 1 });
+            localStorage.setItem('winnerHistory', JSON.stringify(history));
+
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#22d3ee', '#8b5cf6', '#ffffff'] });
+
+            const btn = document.getElementById('drawButton');
+            btn.disabled = false;
+            btn.style.opacity = "1";
+            document.getElementById('downloadBtn').classList.remove('hidden');
+            document.getElementById('resetBtn').classList.remove('hidden');
+
+            if (history.length >= total) {
+                btn.innerText = "SORTEO FINALIZADO";
+                setTimeout(showPodium, 1500);
+            }
+        }
+
+        function showPodium() {
+            const history = JSON.parse(localStorage.getItem('winnerHistory') || "[]");
+            document.getElementById('finalWinnersList').innerHTML = history.map(h => `
+                <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10 shadow-lg">
+                    <span class="text-amber-400 font-black">#${h.puesto}</span>
+                    <span class="text-white font-bold truncate pl-4">${h.name}</span>
+                </div>
+            `).join('');
+            document.getElementById('captureArea').classList.add('hidden');
+            document.getElementById('finalCaptureArea').classList.remove('hidden');
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('winnerHistory');
+            location.reload();
+        }
+
+        async function downloadResult() {
+            const isFinal = !document.getElementById('finalCaptureArea').classList.contains('hidden');
+            const target = isFinal ? document.getElementById('finalCaptureArea') : document.getElementById('captureArea');
+            
+            const canvas = await html2canvas(target, {
+                backgroundColor: '#020617',
+                scale: 3,
+                useCORS: true,
+                onclone: (clonedDoc) => {
+                    const el = clonedDoc.getElementById(isFinal ? 'finalCaptureArea' : 'captureArea');
+                    el.style.display = "block";
+                    el.style.overflow = "visible";
+                }
+            });
+            
+            const link = document.createElement('a');
+            link.download = `Sorteo-RMS-${new Date().getTime()}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+    </script>
+</body>
+</html>
+
+

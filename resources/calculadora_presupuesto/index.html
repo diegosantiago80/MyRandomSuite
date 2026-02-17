@@ -47,9 +47,15 @@
     </script>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
-<a href="../index.html" class="no-print fixed top-6 left-6 z-50 flex items-center gap-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 transition-all group text-sm font-bold">
-    <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i>
+<a href="../../index.html" 
+   class="no-print z-50 flex items-center gap-2 transition-all group text-sm font-bold
+          /* --- MÓVIL: Debajo del logo, centrado y estático --- */
+          relative mt-4 mb-8 justify-center w-full py-3 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300
+          /* --- ESCRITORIO: Vuelve a ser el botón flotante original --- */
+          md:fixed md:top-6 md:left-6 md:mt-0 md:mb-0 md:w-auto md:px-4 md:py-2.5 md:rounded-2xl md:shadow-xl md:bg-white md:dark:bg-slate-900 md:hover:bg-slate-50 md:dark:hover:bg-slate-800 md:border-slate-200 md:dark:border-slate-800">
     
+    <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i>
+    <span class="md:hidden uppercase tracking-widest text-[10px]">Volver al Dashboard</span>
 </a>
 <div class="card w-full max-w-lg bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 relative overflow-hidden">
     

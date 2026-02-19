@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LibertadFIRE - Tu Estratega de Riqueza</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#22c55e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LibertadFIRE">
+    <link rel="apple-touch-icon" href="../logo.png">
+
     <script src="../assets/js/tailwind.js"></script>
     <script src="../assets/js/chart.js"></script>
     <script src="../assets/js/lucide.js"></script>
@@ -16,7 +26,6 @@
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .progress-glow { box-shadow: 0 0 15px rgba(34, 197, 94, 0.3); }
         
-        /* Estilos para el Modal de Ayuda */
         .modal-animate { animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes scaleIn {
             from { opacity: 0; transform: scale(0.9) translateY(20px); }
@@ -27,29 +36,29 @@
 <body class="bg-fire text-slate-200 min-h-screen">
     
     <nav class="p-4 md:p-6 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5 md:border-none">
-    <div class="flex items-center gap-4">
-        <a href="../index.html" class="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group" title="Volver al Dashboard">
-            <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400 group-hover:text-white"></i>
-        </a>
+        <div class="flex items-center gap-4">
+            <a href="../index.html" class="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group" title="Volver al Dashboard">
+                <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400 group-hover:text-white"></i>
+            </a>
 
-        <div class="flex items-center gap-2">
-            <div class="w-9 h-9 md:w-10 md:h-10 accent-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
-                <i data-lucide="key-round" class="w-5 h-5"></i>
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 md:w-10 md:h-10 accent-gradient rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <i data-lucide="key-round" class="w-5 h-5"></i>
+                </div>
+                <span class="text-xl md:text-2xl font-bold tracking-tight">Libertad<span class="text-green-500">FIRE</span></span>
             </div>
-            <span class="text-xl md:text-2xl font-bold tracking-tight">Libertad<span class="text-green-500">FIRE</span></span>
         </div>
-    </div>
-    
-    <div class="hidden md:flex gap-6 text-sm font-medium text-slate-400">
-        <button onclick="toggleHelp()" class="hover:text-green-400 transition-colors flex items-center gap-2">
-            <i data-lucide="help-circle" class="w-4 h-4"></i> Guía de Uso
-        </button>
-    </div>
+        
+        <div class="hidden md:flex gap-6 text-sm font-medium text-slate-400">
+            <button onclick="toggleHelp()" class="hover:text-green-400 transition-colors flex items-center gap-2">
+                <i data-lucide="help-circle" class="w-4 h-4"></i> Guía de Uso
+            </button>
+        </div>
 
-    <button class="md:hidden p-2 text-slate-400" onclick="toggleHelp()">
-        <i data-lucide="help-circle" class="w-6 h-6"></i>
-    </button>
-</nav>
+        <button class="md:hidden p-2 text-slate-400" onclick="toggleHelp()">
+            <i data-lucide="help-circle" class="w-6 h-6"></i>
+        </button>
+    </nav>
 
     <main class="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 pb-12">
         
@@ -282,5 +291,4 @@
     </script>
 </body>
 </html>
-
 

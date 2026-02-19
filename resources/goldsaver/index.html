@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoldSaver Pro | Random Media Studio</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#f1c40f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="GoldSaver">
+    <link rel="apple-touch-icon" href="../logo.png">
+
     <script src="../assets/js/tailwind.js"></script>
     <script src="../assets/js/lucide.js"></script>
     <style>
@@ -27,7 +37,6 @@
             border: 1px solid rgba(241, 196, 15, 0.1);
         }
 
-        /* --- FLIP CARD LOGIC --- */
         .flip-card { perspective: 1000px; min-height: 440px; }
         .flip-card-inner {
             position: relative;
@@ -48,7 +57,6 @@
         }
         .card-back { transform: rotateY(180deg); }
 
-        /* Fix para evitar solapamiento de texto en escritorio */
         .flip-card .card-front { opacity: 1; pointer-events: auto; transition: opacity 0.3s; }
         .flip-card .card-back { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .flip-card.flipped .card-front { opacity: 0; pointer-events: none; }
@@ -135,7 +143,6 @@
 <script>
     let goals = JSON.parse(localStorage.getItem('gs_premium_v2')) || [];
 
-    // --- LÓGICA FINANCIERA DE ACTUALIZACIÓN ---
     function updateInterests() {
         const now = Date.now();
         let changed = false;
@@ -147,10 +154,8 @@
             const daysPassed = msPassed / (1000 * 60 * 60 * 24);
 
             if (daysPassed > 0 && m.rate > 0 && m.saved > 0) {
-                // Cálculo de interés diario basado en TNA
                 const dailyRate = (m.rate / 100) / 365;
                 const interestGained = m.saved * dailyRate * daysPassed;
-                
                 m.saved += interestGained;
                 m.lastUpdate = now;
                 changed = true;
@@ -162,7 +167,7 @@
     }
 
     function init() {
-        updateInterests(); // Actualizar saldos al abrir
+        updateInterests();
         lucide.createIcons();
         render();
     }
@@ -281,6 +286,7 @@
     }
 
     function toggleFlip(id) { document.getElementById(`card-${id}`).classList.toggle('flipped'); }
+    
     function openModal(t, b, i, confirm) {
         document.getElementById('modal-title').innerText = t;
         document.getElementById('modal-body').innerHTML = b;
@@ -289,6 +295,7 @@
         lucide.createIcons();
         document.getElementById('modal-confirm').onclick = () => { confirm(); closeModal(); };
     }
+    
     function closeModal() { document.getElementById('custom-modal').classList.replace('flex', 'hidden'); }
 
     document.addEventListener('DOMContentLoaded', init);

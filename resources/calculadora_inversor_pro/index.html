@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InversorPro - Calculadora de Interés Real</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#be185d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="InversorPro">
+    <link rel="apple-touch-icon" href="../logo.png">
+
     <script src="../assets/js/tailwind.js"></script>
     <script src="../assets/js/chart.js"></script>
     <script src="../assets/js/lucide.js"></script>
@@ -15,7 +25,6 @@
         .dark .glass-card { background: rgba(30, 41, 59, 0.8); border-color: rgba(255, 255, 255, 0.1); }
         .input-focus:focus { outline: none; border-color: #be185d; box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.15); }
         
-        /* Animación Modal */
         .modal-blur { animation: fadeIn 0.2s ease-out; }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -61,6 +70,7 @@
             </button>
         </div>
     </nav>
+
     <main class="max-w-6xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         <section class="lg:col-span-8 order-1 lg:order-2 space-y-6">
@@ -221,7 +231,6 @@
 
             const finalNominal = totalNominal;
             const finalReal = parseFloat(realData[realData.length - 1]);
-            const grossProfit = finalNominal - totalInvested;
             const inflationImpact = finalNominal - finalReal;
 
             document.getElementById('realValue').innerText = '$' + finalReal.toLocaleString('es-AR', {maximumFractionDigits: 0});
@@ -261,5 +270,4 @@
     </script>
 </body>
 </html>
-
 

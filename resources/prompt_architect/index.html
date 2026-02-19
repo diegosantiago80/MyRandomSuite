@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Prompt Architect - Pro Library</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#10b981">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PromptArchitect">
+    <link rel="apple-touch-icon" href="../logo.png">
+
     <script src="../assets/js/tailwind.js"></script>
     <script src="../assets/js/lucide.js"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
+        tailwind.config = { darkMode: 'class' }
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -18,33 +26,23 @@
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
-        
         select, input, textarea { font-size: 16px !important; }
-
-        .input-custom-field { 
-            animation: slideDown 0.3s ease-out forwards;
-        }
+        .input-custom-field { animation: slideDown 0.3s ease-out forwards; }
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .toggle-checkbox:checked { right: 0; border-color: #10b981; }
         .toggle-checkbox:checked + .toggle-label { background-color: #10b981; }
-
-        /* Help Panel Animation */
-        #help-panel {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        #help-panel.hidden-panel {
-            transform: translateX(100%);
-        }
+        #help-panel { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        #help-panel.hidden-panel { transform: translateX(100%); }
     </style>
 </head>
 <body class="bg-[#f8faf9] dark:bg-slate-950 min-h-screen text-slate-900 dark:text-slate-100 font-['Inter']">
 <a href="../index.html" class="fixed top-4 left-4 z-[100] flex items-center gap-2 bg-white/10 hover:bg-emerald-600 dark:bg-slate-900/50 dark:hover:bg-emerald-600 text-slate-700 dark:text-slate-200 hover:text-white px-4 py-2.5 rounded-2xl backdrop-blur-xl transition-all duration-300 border border-slate-200 dark:border-white/5 text-xs font-bold shadow-xl shadow-emerald-500/5 group">
     <i data-lucide="chevron-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
-    
 </a>
+
     <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-emerald-100 dark:border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -56,7 +54,6 @@
                     <span class="text-[9px] font-bold text-emerald-500 uppercase tracking-[0.2em] mt-0.5">Pro Library</span>
                 </div>
             </div>
-            
             <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 transition-colors">
                 <i data-lucide="moon" class="w-5 h-5 text-slate-600 dark:text-emerald-400 block dark:hidden"></i>
                 <i data-lucide="sun" class="w-5 h-5 text-emerald-400 hidden dark:block"></i>
@@ -72,7 +69,6 @@
                     <h2 class="text-lg font-bold mb-6 flex items-center gap-3 text-slate-800 dark:text-white">
                         <i data-lucide="sliders-horizontal" class="w-5 h-5 text-emerald-500"></i> Parámetros
                     </h2>
-
                     <div class="space-y-5">
                         <div>
                             <label class="block text-[10px] font-black text-emerald-700 dark:text-emerald-500 uppercase tracking-widest mb-2">Sector</label>
@@ -85,21 +81,16 @@
                             </select>
                             <input type="text" id="customSector" placeholder="Especifica el sector..." oninput="updatePrompt()" class="hidden mt-3 w-full p-4 bg-emerald-50/30 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm italic">
                         </div>
-
                         <div>
                             <label class="block text-[10px] font-black text-emerald-700 dark:text-emerald-500 uppercase tracking-widest mb-2">Rol Experto</label>
-                            <select id="role" onchange="handleRoleChange()" class="w-full p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none dark:text-slate-200 appearance-none">
-                            </select>
+                            <select id="role" onchange="handleRoleChange()" class="w-full p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none dark:text-slate-200 appearance-none"></select>
                             <input type="text" id="customRole" placeholder="Define tu rol..." oninput="updatePrompt()" class="hidden mt-3 w-full p-4 bg-emerald-50/30 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm italic">
                         </div>
-
                         <div>
                             <label class="block text-[10px] font-black text-emerald-700 dark:text-emerald-500 uppercase tracking-widest mb-2">Objetivo</label>
-                            <select id="task" onchange="handleTaskChange()" class="w-full p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none dark:text-slate-200 appearance-none">
-                            </select>
+                            <select id="task" onchange="handleTaskChange()" class="w-full p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none dark:text-slate-200 appearance-none"></select>
                             <input type="text" id="customTask" placeholder="¿Qué quieres lograr exactamente?" oninput="updatePrompt()" class="hidden mt-3 w-full p-4 bg-emerald-50/30 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm italic">
                         </div>
-
                         <div>
                             <label class="block text-[10px] font-black text-emerald-700 dark:text-emerald-500 uppercase tracking-widest mb-3">Tono de Voz</label>
                             <div class="grid grid-cols-2 gap-2">
@@ -109,7 +100,6 @@
                                 <button onclick="setTone('Estratégico y Directivo', this)" class="tone-btn p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl text-[11px] font-bold text-slate-500 dark:text-slate-400 hover:border-emerald-400 transition-all">Estratégico</button>
                             </div>
                         </div>
-
                         <div class="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <i data-lucide="image" class="w-5 h-5 text-emerald-600"></i>
@@ -120,7 +110,6 @@
                                 <label for="toggleImages" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer"></label>
                             </div>
                         </div>
-
                         <div>
                             <label class="block text-[10px] font-black text-emerald-700 dark:text-emerald-500 uppercase tracking-widest mb-2">Contexto Extra</label>
                             <textarea id="context" oninput="updatePrompt()" placeholder="Detalles específicos..." class="w-full p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none h-24 resize-none dark:text-slate-200 text-sm"></textarea>
@@ -128,7 +117,7 @@
                         <footer class="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
                             <span class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">powered by Random media studio</span>
                             <img src="../logo.png" class="w-6 h-6 rounded-full border text-magenta-600 p-0.5" alt="RMS">
-                    </footer>
+                        </footer>
                     </div>
                 </div>
             </div>
@@ -141,15 +130,13 @@
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                             </span>
-                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Cofiguración Actual</span>
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Configuración Actual</span>
                         </div>
                         <button onclick="copyToClipboard()" class="w-full sm:w-auto flex items-center justify-center gap-2 text-[11px] font-black bg-emerald-600 text-white px-6 py-4 rounded-2xl hover:bg-emerald-500 transition-all active:scale-95 shadow-xl shadow-emerald-500/10 uppercase tracking-widest">
                             <i data-lucide="clipboard-copy" class="w-4 h-4"></i> Copiar Prompt
                         </button>
                     </div>
-
-                    <div id="output" class="flex-grow text-slate-300 font-mono text-sm leading-relaxed h-[400px] lg:h-auto overflow-y-auto custom-scrollbar pr-4">
-                        </div>
+                    <div id="output" class="flex-grow text-slate-300 font-mono text-sm leading-relaxed h-[400px] lg:h-auto overflow-y-auto custom-scrollbar pr-4"></div>
                 </div>
             </div>
         </div>
@@ -173,17 +160,13 @@
                 <i data-lucide="x-circle" class="w-8 h-8"></i>
             </button>
         </div>
-
         <div class="space-y-8">
             <section>
                 <h3 class="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-4 text-emerald-500">
                     <i data-lucide="brain-circuit" class="w-4 h-4"></i> El Método Persona
                 </h3>
-                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-                    Asignar un <b>Rol Experto</b> no es solo estético. Obliga a la IA a priorizar el vocabulario técnico y los marcos de trabajo específicos de esa industria, reduciendo respuestas genéricas.
-                </p>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Asignar un <b>Rol Experto</b> no es solo estético. Obliga a la IA a priorizar el vocabulario técnico y los marcos de trabajo específicos de esa industria, reduciendo respuestas genéricas.</p>
             </section>
-
             <section>
                 <h3 class="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-4 text-emerald-500">
                     <i data-lucide="message-square" class="w-4 h-4"></i> Tono y Estilo
@@ -199,102 +182,41 @@
                     </div>
                 </div>
             </section>
-
             <section>
                 <h3 class="flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-4 text-emerald-500">
                     <i data-lucide="image" class="w-4 h-4"></i> Activos Visuales
                 </h3>
-                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-                    Si activas <b>Soporte Visual</b>, el prompt incluirá una instrucción para que la IA genere diagramas (Mermaid, ASCII o descripciones de diseño). Muy útil para procesos y arquitectura.
-                </p>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Si activas <b>Soporte Visual</b>, el prompt incluirá una instrucción para que la IA genere diagramas (Mermaid, ASCII o descripciones de diseño). Muy útil para procesos y arquitectura.</p>
             </section>
-
             <div class="p-6 bg-emerald-600 rounded-[2rem] text-white">
                 <h4 class="font-black text-sm mb-2 italic">Tip de Arquitecto:</h4>
-                <p class="text-xs opacity-90 leading-relaxed">
-                    Usa el campo <b>Contexto Extra</b> para pegar ejemplos. Decirle a la IA: "Escribe esto siguiendo el estilo de este ejemplo: [pegar texto]" aumenta la precisión en un 40%.
-                </p>
+                <p class="text-xs opacity-90 leading-relaxed">Usa el campo <b>Contexto Extra</b> para pegar ejemplos. Decirle a la IA: "Escribe esto siguiendo el estilo de este ejemplo: [pegar texto]" aumenta la precisión en un 40%.</p>
             </div>
         </div>
     </div>
 
     <script>
         const database = {
-            admin: {
-                label: "Administración y Oficina",
-                roles: {
-                    assistant: { label: "Asistente Administrativo", tasks: [{ label: "Crear reporte mensual", val: "Generar una estructura detallada para un informe de gestión mensual con indicadores clave de rendimiento." }, { label: "Organizar agenda semanal", val: "Diseñar un sistema de priorización y organización de tareas para una semana de alta carga laboral." }, { label: "Automatizar base de datos", val: "Proponer una lógica de automatización para una base de datos de contactos o inventario en Excel." }, { label: "Redactar comunicado interno", val: "Escribir una circular profesional para informar cambios operativos a todo el equipo." }, { label: "Diseñar formulario de registro", val: "Estructurar los campos y la lógica de validación para un formulario de captura de datos profesional." }] },
-                    project: { label: "Gestor de Proyectos", tasks: [{ label: "Planificar cronograma", val: "Crear un diagrama de Gantt o cronograma de hitos para un proyecto de 3 meses." }, { label: "Asignar recursos", val: "Desarrollar una matriz de asignación de responsabilidades (RACI) para el equipo." }, { label: "Analizar riesgos", val: "Identificar posibles cuellos de botella y proponer planes de mitigación." }, { label: "Reportar avances", val: "Estructurar una actualización de estado para los stakeholders interesados." }, { label: "Cierre de proyecto", val: "Generar una lista de verificación y lecciones aprendidas para la fase de cierre." }] },
-                    data: { label: "Analista de Datos", tasks: [{ label: "Limpiar dataset", val: "Proporcionar pasos técnicos para normalizar y limpiar datos crudos para su análisis." }, { label: "Crear dashboard", val: "Diseñar la disposición visual y las métricas principales para un tablero de control." }, { label: "Detectar tendencias", val: "Analizar series de tiempo para identificar patrones estacionales o anomalías." }, { label: "Predecir resultados", val: "Proponer un modelo lógico para estimar resultados futuros basados en datos históricos." }, { label: "Presentar hallazgos", val: "Traducir datos complejos en insights accionables para la dirección." }] },
-                    hr: { label: "Coordinador de RRHH", tasks: [{ label: "Filtrar candidatos", val: "Crear una rúbrica de evaluación para seleccionar los mejores perfiles de una vacante." }, { label: "Diseñar Onboarding", val: "Estructurar el plan de bienvenida para los nuevos integrantes de la empresa." }, { label: "Evaluar desempeño", val: "Desarrollar un sistema de feedback 360 grados para el equipo." }, { label: "Gestionar clima laboral", val: "Diseñar una encuesta de satisfacción interna y plan de mejora." }, { label: "Plan de capacitación", val: "Identificar brechas de habilidades y proponer un calendario de formación." }] },
-                    reception: { label: "Recepcionista Digital", tasks: [{ label: "Atención al cliente", val: "Redactar guiones de respuesta para las dudas más frecuentes de los usuarios." }, { label: "Gestionar proveedores", val: "Establecer un flujo de comunicación y seguimiento con proveedores externos." }, { label: "Control de visitas", val: "Diseñar un protocolo de seguridad y registro para el acceso a instalaciones." }, { label: "Redactar minutas", val: "Estructurar el resumen de una reunión resaltando acuerdos y tareas pendientes." }, { label: "Logística de envíos", val: "Crear un sistema de seguimiento para la mensajería y paquetería de la oficina." }] }
-                }
-            },
-            marketing: {
-                label: "Marketing y Comunicación",
-                roles: {
-                    social: { label: "Gestor de Redes Sociales", tasks: [{ label: "Crear calendario de posts", val: "Planificar un mes de contenido equilibrado entre educación, venta y entretenimiento." }, { label: "Analizar métricas", val: "Interpretar el alcance e interacción para ajustar la estrategia de contenido." }, { label: "Gestionar comunidad", val: "Establecer guías de respuesta para fomentar el engagement y manejar crisis." }, { label: "Estrategia de Reels/TikTok", val: "Diseñar guiones visuales cortos con alto potencial de viralidad." }, { label: "Plan de anuncios", val: "Estructurar la segmentación y el copy para una campaña pagada inicial." }] },
-                    copy: { label: "Redactor de Contenido", tasks: [{ label: "Escribir artículo de blog", val: "Redactar un post optimizado para SEO sobre un tema relevante del sector." }, { label: "Crear Newsletter", val: "Diseñar un boletín semanal que mantenga interesada a la base de suscriptores." }, { label: "Redactar Landing Page", val: "Escribir los textos de una página de ventas enfocados en la conversión." }, { label: "Storytelling de marca", val: "Construir la narrativa de la empresa para conectar emocionalmente con el cliente." }, { label: "Escribir guiones", val: "Desarrollar el guion para un video institucional o podcast corporativo." }] },
-                    ads: { label: "Especialista en Publicidad", tasks: [{ label: "Auditoría de campañas", val: "Identificar fugas de presupuesto en campañas actuales de Google o Meta Ads." }, { label: "Investigar palabras clave", val: "Encontrar términos de búsqueda con alta intención de compra." }, { label: "Diseñar test A/B", val: "Planificar una prueba para comparar dos variantes de anuncio y optimizar." }, { label: "Configurar conversiones", val: "Establecer el rastreo de acciones valiosas dentro del sitio web." }, { label: "Escalar presupuestos", val: "Proponer una estrategia para aumentar la inversión sin perder rentabilidad." }] },
-                    market: { label: "Analista de Mercado", tasks: [{ label: "Analizar competencia", val: "Realizar un benchmarking de precios, productos y estrategias de los rivales." }, { label: "Segmentar audiencia", val: "Definir los perfiles de Buyer Persona detallados para el negocio." }, { label: "Detectar nichos", val: "Identificar oportunidades de mercado poco explotadas por la industria." }, { label: "Encuesta de satisfacción", val: "Diseñar un estudio de mercado para entender las necesidades del cliente." }, { label: "Informe de tendencias", val: "Prever cambios en el comportamiento del consumidor para el próximo año." }] },
-                    brand: { label: "Diseñador de Marca", tasks: [{ label: "Crear manual de identidad", val: "Establecer las reglas de uso de logos, colores y tipografías." }, { label: "Diseñar post templates", val: "Crear plantillas coherentes para mantener la estética en redes sociales." }, { label: "Rediseño de logo", val: "Proponer una evolución visual de la marca para modernizar su imagen." }, { label: "Packaging/Empaque", val: "Diseñar la experiencia física del producto al ser recibido por el cliente." }, { label: "Branding para eventos", val: "Planificar la presencia visual de la marca en ferias o conferencias." }] }
-                }
-            },
-            business: {
-                label: "Estrategia y Negocios",
-                roles: {
-                    consultant: { label: "Consultor de Negocios", tasks: [{ label: "Realizar análisis FODA", val: "Identificar Fortalezas, Oportunidades, Debilidades y Amenazas del proyecto." }, { label: "Plan estratégico", val: "Trazar la hoja de ruta para los próximos 12 meses de la organización." }, { label: "Optimizar procesos", val: "Encontrar ineficiencias en la operación actual y proponer mejoras." }, { label: "Estrategia de precios", val: "Analizar costos y valor percibido para definir el precio óptimo." }, { label: "Plan de expansión", val: "Evaluar la viabilidad de entrar en nuevos mercados o ciudades." }] },
-                    finance: { label: "Analista Financiero", tasks: [{ label: "Proyectar presupuesto", val: "Estimar ingresos y gastos para el siguiente ejercicio contable." }, { label: "Analizar flujo de caja", val: "Asegurar que la empresa tenga liquidez para sus operaciones diarias." }, { label: "Evaluar inversión", val: "Calcular el Retorno de Inversión (ROI) de un nuevo proyecto propuesto." }, { label: "Control de costos", val: "Identificar gastos innecesarios y proponer políticas de ahorro." }, { label: "Informe de rentabilidad", val: "Determinar qué productos o servicios generan el mayor margen." }] },
-                    sales: { label: "Gerente de Ventas", tasks: [{ label: "Diseñar plan de ventas", val: "Establecer objetivos comerciales y tácticas para alcanzarlos." }, { label: "Entrenar al equipo", val: "Crear un manual de objeciones y técnicas de cierre para los vendedores." }, { label: "Seguimiento de Leads", val: "Optimizar el embudo de ventas para que no se pierdan prospectos." }, { label: "Estrategia de referidos", val: "Diseñar un programa para incentivar que los clientes actuales atraigan nuevos." }, { label: "Pronóstico de ventas", val: "Estimar las ventas futuras basadas en el pipeline actual." }] },
-                    founder: { label: "Emprendedor", tasks: [{ label: "Crear modelo de negocio", val: "Estructurar la propuesta de valor y canales de monetización iniciales." }, { label: "Pitch para inversores", val: "Diseñar el discurso y la presentación para buscar financiamiento." }, { label: "Validar MVP", val: "Planificar experimentos para probar el producto con usuarios reales rápidamente." }, { label: "Networking estratégico", val: "Identificar aliados clave para potenciar el crecimiento del negocio." }, { label: "Cultura organizacional", val: "Definir los valores y la misión que guiarán el crecimiento del equipo." }] },
-                    logistics: { label: "Especialista en Logística", tasks: [{ label: "Optimizar suministros", val: "Mejorar la relación con proveedores y los tiempos de entrega." }, { label: "Gestión de inventarios", val: "Implementar un sistema de stock para evitar faltantes o excesos." }, { label: "Rutas de entrega", val: "Planificar los trayectos más eficientes para reducir costos de transporte." }, { label: "Almacenamiento", val: "Diseñar la disposición del almacén para agilizar el picking y packing." }, { label: "Logística inversa", val: "Establecer el proceso para devoluciones y cambios de forma eficiente." }] }
-                }
-            },
-            tech: {
-                label: "Ingeniería y Tecnología",
-                roles: {
-                    dev: { label: "Desarrollador de Software", tasks: [{ label: "Documentación técnica", val: "Escribir guías claras sobre cómo funciona y cómo se mantiene el código." }, { label: "Revisar código (Code Review)", val: "Establecer una lista de verificación para asegurar la calidad del software." }, { label: "Plan de testing", val: "Diseñar pruebas unitarias e integrales para evitar errores en producción." }, { label: "Estructurar base de datos", val: "Diseñar el modelo de datos óptimo para la escalabilidad del sistema." }, { label: "Hoja de ruta técnica", val: "Priorizar las funcionalidades y mejoras de la plataforma para el futuro." }] },
-                    sysadmin: { label: "Administrador de Sistemas", tasks: [{ label: "Arquitectura cloud", val: "Planificar la migración o mejora de servidores en la nube (AWS/Azure)." }, { label: "Plan de backups", val: "Establecer protocolos de respaldo de datos para evitar pérdidas totales." }, { label: "Monitorización", val: "Configurar alertas para detectar caídas del sistema antes que el usuario." }, { label: "Gestión de accesos", val: "Establecer políticas de permisos y seguridad para los empleados." }, { label: "Optimización de recursos", val: "Reducir costos de infraestructura eliminando recursos no utilizados." }] },
-                    security: { label: "Experto en Ciberseguridad", tasks: [{ label: "Auditoría de seguridad", val: "Realizar un escaneo de vulnerabilidades en la red o aplicación." }, { label: "Protocolo de respuesta", val: "Diseñar los pasos a seguir en caso de una filtración de datos." }, { label: "Educación al personal", val: "Crear una guía contra ataques de phishing y malas prácticas." }, { label: "Cifrado de datos", val: "Implementar medidas para proteger la información sensible en reposo y tránsito." }, { label: "Cumplimiento legal", val: "Asegurar que la tecnología cumpla con normativas de privacidad (GDPR/LPDP)." }] },
-                    engineer: { label: "Ingeniero de Datos", tasks: [{ label: "Diseñar flujo de datos", val: "Crear tuberías (pipelines) para mover datos de origen a destino." }, { label: "Integrar APIs", val: "Establecer la conexión técnica entre diferentes plataformas de software." }, { label: "Gobernanza de datos", val: "Definir quién es dueño de cada dato y cómo debe ser tratado." }, { label: "Almacén de datos (Warehouse)", val: "Organizar grandes volúmenes de información para consultas rápidas." }, { label: "Automatizar reportes", val: "Hacer que la extracción de datos sea automática y libre de errores humanos." }] },
-                    support: { label: "Soporte Técnico", tasks: [{ label: "Guía de resolución", val: "Crear un manual de solución de problemas comunes para los usuarios." }, { label: "Gestión de tickets", val: "Establecer un flujo de priorización para las solicitudes de soporte." }, { label: "Inventario técnico", val: "Mantener el registro de hardware y software asignado a cada usuario." }, { label: "Plan de mantenimiento", val: "Calendario de actualizaciones preventivas para evitar fallos." }, { label: "Configuración inicial", val: "Protocolo para preparar equipos nuevos para los empleados." }] }
-                }
-            },
-            custom: {
-                label: "Personalizado",
-                roles: {
-                    custom: { label: "Personalizado", tasks: [{ label: "Personalizado", val: "" }] }
-                }
-            }
+            admin: { label: "Administración y Oficina", roles: { assistant: { label: "Asistente Administrativo", tasks: [{ label: "Crear reporte mensual", val: "Generar una estructura detallada para un informe de gestión mensual con indicadores clave de rendimiento." }, { label: "Organizar agenda semanal", val: "Diseñar un sistema de priorización y organización de tareas para una semana de alta carga laboral." }, { label: "Automatizar base de datos", val: "Proponer una lógica de automatización para una base de datos de contactos o inventario en Excel." }, { label: "Redactar comunicado interno", val: "Escribir una circular profesional para informar cambios operativos a todo el equipo." }, { label: "Diseñar formulario de registro", val: "Estructurar los campos y la lógica de validación para un formulario de captura de datos profesional." }] }, project: { label: "Gestor de Proyectos", tasks: [{ label: "Planificar cronograma", val: "Crear un diagrama de Gantt o cronograma de hitos para un proyecto de 3 meses." }, { label: "Asignar recursos", val: "Desarrollar una matriz de asignación de responsabilidades (RACI) para el equipo." }, { label: "Analizar riesgos", val: "Identificar posibles cuellos de botella y proponer planes de mitigación." }, { label: "Reportar avances", val: "Estructurar una actualización de estado para los stakeholders interesados." }, { label: "Cierre de proyecto", val: "Generar una lista de verificación y lecciones aprendidas para la fase de cierre." }] }, data: { label: "Analista de Datos", tasks: [{ label: "Limpiar dataset", val: "Proporcionar pasos técnicos para normalizar y limpiar datos crudos para su análisis." }, { label: "Crear dashboard", val: "Diseñar la disposición visual y las métricas principales para un tablero de control." }, { label: "Detectar tendencias", val: "Analizar series de tiempo para identificar patrones estacionales o anomalías." }, { label: "Predecir resultados", val: "Proponer un modelo lógico para estimar resultados futuros basados en datos históricos." }, { label: "Presentar hallazgos", val: "Traducir datos complejos en insights accionables para la dirección." }] }, hr: { label: "Coordinador de RRHH", tasks: [{ label: "Filtrar candidatos", val: "Crear una rúbrica de evaluación para seleccionar los mejores perfiles de una vacante." }, { label: "Diseñar Onboarding", val: "Estructurar el plan de bienvenida para los nuevos integrantes de la empresa." }, { label: "Evaluar desempeño", val: "Desarrollar un sistema de feedback 360 grados para el equipo." }, { label: "Gestionar clima laboral", val: "Diseñar una encuesta de satisfacción interna y plan de mejora." }, { label: "Plan de capacitación", val: "Identificar brechas de habilidades y proponer un calendario de formación." }] }, reception: { label: "Recepcionista Digital", tasks: [{ label: "Atención al cliente", val: "Redactar guiones de respuesta para las dudas más frecuentes de los usuarios." }, { label: "Gestionar proveedores", val: "Establecer un flujo de comunicación y seguimiento con proveedores externos." }, { label: "Control de visitas", val: "Diseñar un protocolo de seguridad y registro para el acceso a instalaciones." }, { label: "Redactar minutas", val: "Estructurar el resumen de una reunión resaltando acuerdos y tareas pendientes." }, { label: "Logística de envíos", val: "Crear un sistema de seguimiento para la mensajería y paquetería de la oficina." }] } } },
+            marketing: { label: "Marketing y Comunicación", roles: { social: { label: "Gestor de Redes Sociales", tasks: [{ label: "Crear calendario de posts", val: "Planificar un mes de contenido equilibrado entre educación, venta y entretenimiento." }, { label: "Analizar métricas", val: "Interpretar el alcance e interacción para ajustar la estrategia de contenido." }, { label: "Gestionar comunidad", val: "Establecer guías de respuesta para fomentar el engagement y manejar crisis." }, { label: "Estrategia de Reels/TikTok", val: "Diseñar guiones visuales cortos con alto potencial de viralidad." }, { label: "Plan de anuncios", val: "Estructurar la segmentación y el copy para una campaña pagada inicial." }] }, copy: { label: "Redactor de Contenido", tasks: [{ label: "Escribir artículo de blog", val: "Redactar un post optimizado para SEO sobre un tema relevante del sector." }, { label: "Crear Newsletter", val: "Diseñar un boletín semanal que mantenga interesada a la base de suscriptores." }, { label: "Redactar Landing Page", val: "Escribir los textos de una página de ventas enfocados en la conversión." }, { label: "Storytelling de marca", val: "Construir la narrativa de la empresa para conectar emocionalmente con el cliente." }, { label: "Escribir guiones", val: "Desarrollar el guion para un video institucional o podcast corporativo." }] }, ads: { label: "Especialista en Publicidad", tasks: [{ label: "Auditoría de campañas", val: "Identificar fugas de presupuesto en campañas actuales de Google o Meta Ads." }, { label: "Investigar palabras clave", val: "Encontrar términos de búsqueda con alta intención de compra." }, { label: "Diseñar test A/B", val: "Planificar una prueba para comparar dos variantes de anuncio y optimizar." }, { label: "Configurar conversiones", val: "Establecer el rastreo de acciones valiosas dentro del sitio web." }, { label: "Escalar presupuestos", val: "Proponer una estrategia para aumentar la inversión sin perder rentabilidad." }] }, market: { label: "Analista de Mercado", tasks: [{ label: "Analizar competencia", val: "Realizar un benchmarking de precios, productos y estrategias de los rivales." }, { label: "Segmentar audiencia", val: "Definir los perfiles de Buyer Persona detallados para el negocio." }, { label: "Detectar nichos", val: "Identificar oportunidades de mercado poco explotadas por la industria." }, { label: "Encuesta de satisfacción", val: "Diseñar un estudio de mercado para entender las necesidades del cliente." }, { label: "Informe de tendencias", val: "Prever cambios en el comportamiento del consumidor para el próximo año." }] }, brand: { label: "Diseñador de Marca", tasks: [{ label: "Crear manual de identidad", val: "Establecer las reglas de uso de logos, colores y tipografías." }, { label: "Diseñar post templates", val: "Crear plantillas coherentes para mantener la estética en redes sociales." }, { label: "Rediseño de logo", val: "Proponer una evolución visual de la marca para modernizar su imagen." }, { label: "Packaging/Empaque", val: "Diseñar la experiencia física del producto al ser recibido por el cliente." }, { label: "Branding para eventos", val: "Planificar la presencia visual de la marca en ferias o conferencias." }] } } },
+            business: { label: "Estrategia y Negocios", roles: { consultant: { label: "Consultor de Negocios", tasks: [{ label: "Realizar análisis FODA", val: "Identificar Fortalezas, Oportunidades, Debilidades y Amenazas del proyecto." }, { label: "Plan estratégico", val: "Trazar la hoja de ruta para los próximos 12 meses de la organización." }, { label: "Optimizar procesos", val: "Encontrar ineficiencias en la operación actual y proponer mejoras." }, { label: "Estrategia de precios", val: "Analizar costos y valor percibido para definir el precio óptimo." }, { label: "Plan de expansión", val: "Evaluar la viabilidad de entrar en nuevos mercados o ciudades." }] }, finance: { label: "Analista Financiero", tasks: [{ label: "Proyectar presupuesto", val: "Estimar ingresos y gastos para el siguiente ejercicio contable." }, { label: "Analizar flujo de caja", val: "Asegurar que la empresa tenga liquidez para sus operaciones diarias." }, { label: "Evaluar inversión", val: "Calcular el Retorno de Inversión (ROI) de un nuevo proyecto propuesto." }, { label: "Control de costos", val: "Identificar gastos innecesarios y proponer políticas de ahorro." }, { label: "Informe de rentabilidad", val: "Determinar qué productos o servicios generan el mayor margen." }] }, sales: { label: "Gerente de Ventas", tasks: [{ label: "Diseñar plan de ventas", val: "Establecer objetivos comerciales y tácticas para alcanzarlos." }, { label: "Entrenar al equipo", val: "Crear un manual de objeciones y técnicas de cierre para los vendedores." }, { label: "Seguimiento de Leads", val: "Optimizar el embudo de ventas para que no se pierdan prospectos." }, { label: "Estrategia de referidos", val: "Diseñar un programa para incentivar que los clientes actuales atraigan nuevos." }, { label: "Pronóstico de ventas", val: "Estimar las ventas futuras basadas en el pipeline actual." }] }, founder: { label: "Emprendedor", tasks: [{ label: "Crear modelo de negocio", val: "Estructurar la propuesta de valor y canales de monetización iniciales." }, { label: "Pitch para inversores", val: "Diseñar el discurso y la presentación para buscar financiamiento." }, { label: "Validar MVP", val: "Planificar experimentos para probar el producto con usuarios reales rápidamente." }, { label: "Networking estratégico", val: "Identificar aliados clave para potenciar el crecimiento del negocio." }, { label: "Cultura organizacional", val: "Definir los valores y la misión que guiarán el crecimiento del equipo." }] }, logistics: { label: "Especialista en Logística", tasks: [{ label: "Optimizar suministros", val: "Mejorar la relación con proveedores y los tiempos de entrega." }, { label: "Gestión de inventarios", val: "Implementar un sistema de stock para evitar faltantes o excesos." }, { label: "Rutas de entrega", val: "Planificar los trayectos más eficientes para reducir costos de transporte." }, { label: "Almacenamiento", val: "Diseñar la disposición del almacén para agilizar el picking y packing." }, { label: "Logística inversa", val: "Establecer el proceso para devoluciones y cambios de forma eficiente." }] } } },
+            tech: { label: "Ingeniería y Tecnología", roles: { dev: { label: "Desarrollador de Software", tasks: [{ label: "Documentación técnica", val: "Escribir guías claras sobre cómo funciona y cómo se mantiene el código." }, { label: "Revisar código (Code Review)", val: "Establecer una lista de verificación para asegurar la calidad del software." }, { label: "Plan de testing", val: "Diseñar pruebas unitarias e integrales para evitar errores en producción." }, { label: "Estructurar base de datos", val: "Diseñar el modelo de datos óptimo para la escalabilidad del sistema." }, { label: "Hoja de ruta técnica", val: "Priorizar las funcionalidades y mejoras de la plataforma para el futuro." }] }, sysadmin: { label: "Administrador de Sistemas", tasks: [{ label: "Arquitectura cloud", val: "Planificar la migración o mejora de servidores en la nube (AWS/Azure)." }, { label: "Plan de backups", val: "Establecer protocolos de respaldo de datos para evitar pérdidas totales." }, { label: "Monitorización", val: "Configurar alertas para detectar caídas del sistema antes que el usuario." }, { label: "Gestión de accesos", val: "Establecer políticas de permisos y seguridad para los empleados." }, { label: "Optimización de recursos", val: "Reducir costos de infraestructura eliminando recursos no utilizados." }] }, security: { label: "Experto en Ciberseguridad", tasks: [{ label: "Auditoría de seguridad", val: "Realizar un escaneo de vulnerabilidades en la red o aplicación." }, { label: "Protocolo de respuesta", val: "Diseñar los pasos a seguir en caso de una filtración de datos." }, { label: "Educación al personal", val: "Crear una guía contra ataques de phishing y malas prácticas." }, { label: "Cifrado de datos", val: "Implementar medidas para proteger la información sensible en reposo y tránsito." }, { label: "Cumplimiento legal", val: "Asegurar que la tecnología cumpla con normativas de privacidad (GDPR/LPDP)." }] }, engineer: { label: "Ingeniero de Datos", tasks: [{ label: "Diseñar flujo de datos", val: "Crear tuberías (pipelines) para mover datos de origen a destino." }, { label: "Integrar APIs", val: "Establecer la conexión técnica entre diferentes plataformas de software." }, { label: "Gobernanza de datos", val: "Definir quién es dueño de cada dato y cómo debe ser tratado." }, { label: "Almacén de datos (Warehouse)", val: "Organizar grandes volúmenes de información para consultas rápidas." }, { label: "Automatizar reportes", val: "Hacer que la extracción de datos sea automática y libre de errores humanos." }] }, support: { label: "Soporte Técnico", tasks: [{ label: "Guía de resolución", val: "Crear un manual de solución de problemas comunes para los usuarios." }, { label: "Gestión de tickets", val: "Establecer un flujo de priorización para las solicitudes de soporte." }, { label: "Inventario técnico", val: "Mantener el registro de hardware y software asignado a cada usuario." }, { label: "Plan de mantenimiento", val: "Calendario de actualizaciones preventivas para evitar fallos." }, { label: "Configuración inicial", val: "Protocolo para preparar equipos nuevos para los empleados." }] } } },
+            custom: { label: "Personalizado", roles: { custom: { label: "Personalizado", tasks: [{ label: "Personalizado", val: "" }] } } }
         };
 
         let currentTone = 'Analítico y Técnico';
 
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-        }
-
-        function toggleHelp() {
-            const panel = document.getElementById('help-panel');
-            panel.classList.toggle('hidden-panel');
-        }
+        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+        function toggleHelp() { document.getElementById('help-panel').classList.toggle('hidden-panel'); }
 
         function handleGroupChange() {
             const groupKey = document.getElementById('roleGroup').value;
             const roleSel = document.getElementById('role');
             const customSectorInput = document.getElementById('customSector');
-            
             customSectorInput.classList.toggle('hidden', groupKey !== 'custom');
-            
             const roles = database[groupKey].roles;
-            roleSel.innerHTML = Object.entries(roles).map(([id, info]) => 
-                `<option value="${id}">${info.label}</option>`
-            ).join('');
-            
-            if(groupKey !== 'custom') {
-                roleSel.innerHTML += `<option value="custom">Otro (Rol personalizado)...</option>`;
-            }
-            
+            roleSel.innerHTML = Object.entries(roles).map(([id, info]) => `<option value="${id}">${info.label}</option>`).join('');
+            if(groupKey !== 'custom') { roleSel.innerHTML += `<option value="custom">Otro (Rol personalizado)...</option>`; }
             handleRoleChange();
         }
 
@@ -303,26 +225,20 @@
             const roleKey = document.getElementById('role').value;
             const taskSel = document.getElementById('task');
             const customRoleInput = document.getElementById('customRole');
-
             customRoleInput.classList.toggle('hidden', roleKey !== 'custom');
-
             if (groupKey === 'custom' || roleKey === 'custom') {
                 taskSel.innerHTML = `<option value="custom">Acción personalizada...</option>`;
             } else {
                 const tasks = database[groupKey].roles[roleKey].tasks;
-                taskSel.innerHTML = tasks.map(t => 
-                    `<option value="${t.val}">${t.label}</option>`
-                ).join('');
+                taskSel.innerHTML = tasks.map(t => `<option value="${t.val}">${t.label}</option>`).join('');
                 taskSel.innerHTML += `<option value="custom">Acción personalizada...</option>`;
             }
-            
             handleTaskChange();
         }
 
         function handleTaskChange() {
             const taskVal = document.getElementById('task').value;
-            const customTaskInput = document.getElementById('customTask');
-            customTaskInput.classList.toggle('hidden', taskVal !== 'custom');
+            document.getElementById('customTask').classList.toggle('hidden', taskVal !== 'custom');
             updatePrompt();
         }
 
@@ -341,58 +257,36 @@
             const groupKey = document.getElementById('roleGroup').value;
             const roleKey = document.getElementById('role').value;
             const taskVal = document.getElementById('task').value;
-            
             let finalRole = (roleKey === 'custom') ? document.getElementById('customRole').value : (database[groupKey].roles[roleKey]?.label || "Profesional");
             let finalTask = (taskVal === 'custom') ? document.getElementById('customTask').value : taskVal;
-            
             const context = document.getElementById('context').value;
             const includeImages = document.getElementById('toggleImages').checked;
-            
             let imageInstruction = "";
             if (includeImages) {
-                imageInstruction = `<br><span class="text-emerald-400 font-bold text-[10px] tracking-[0.3em] uppercase block mb-2 opacity-70 border-b border-emerald-500/10 pb-1">Activo Visual Requerido</span>
-                **Instrucción Visual**: Genera un diagrama, dashboard o representación gráfica técnica que apoye esta respuesta.<br><br>`;
+                imageInstruction = `<br><span class="text-emerald-400 font-bold text-[10px] tracking-[0.3em] uppercase block mb-2 opacity-70 border-b border-emerald-500/10 pb-1">Activo Visual Requerido</span>**Instrucción Visual**: Genera un diagrama, dashboard o representación gráfica técnica que apoye esta respuesta.<br><br>`;
             }
-
-            const html = `
+            document.getElementById('output').innerHTML = `
                 <span class="text-emerald-500 font-bold text-[10px] tracking-[0.3em] uppercase block mb-2 opacity-50 border-b border-emerald-500/20 pb-1">Persona AI</span>
                 Actúa como un <span class="text-white font-black underline decoration-emerald-500/50">${finalRole || 'Experto'}</span> con especialidad en el sector de <span class="text-emerald-50 font-medium">${groupKey === 'custom' ? document.getElementById('customSector').value : database[groupKey].label}</span>.<br><br>
-                
                 <span class="text-emerald-500 font-bold text-[10px] tracking-[0.3em] uppercase block mb-2 opacity-50 border-b border-emerald-500/20 pb-1">Misión</span>
                 Tu objetivo es: <span class="text-emerald-50 font-medium">${finalTask || 'Desarrollar la consultoría solicitada.'}</span>.<br><br>
-                
                 <span class="text-emerald-500 font-bold text-[10px] tracking-[0.3em] uppercase block mb-2 opacity-50 border-b border-emerald-500/20 pb-1">Contexto del Proyecto</span>
                 ${context || 'Considera las mejores prácticas de la industria y estándares profesionales.'}<br><br>
-                
                 <span class="text-emerald-500 font-bold text-[10px] tracking-[0.3em] uppercase block mb-2 opacity-50 border-b border-emerald-500/20 pb-1">Estilo de Comunicación</span>
                 Tono: <span class="text-white font-bold italic">${currentTone}</span>. Enfócate en la utilidad práctica y la precisión técnica.<br>
-                
-                ${imageInstruction}
-            `;
-            
-            document.getElementById('output').innerHTML = html;
+                ${imageInstruction}`;
         }
 
         async function copyToClipboard() {
             const text = document.getElementById('output').innerText;
             await navigator.clipboard.writeText(text);
-            
             const toast = document.getElementById('toast');
             toast.style.opacity = '1';
             toast.style.bottom = '32px';
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.bottom = '16px';
-            }, 2000);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.bottom = '16px'; }, 2000);
         }
 
-        window.onload = () => {
-            handleGroupChange();
-            lucide.createIcons();
-        };
+        window.onload = () => { handleGroupChange(); lucide.createIcons(); };
     </script>
 </body>
 </html>
-
-

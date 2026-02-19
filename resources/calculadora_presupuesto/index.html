@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProfitCalc Pro | Tarifa Freelance</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#0d9488">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ProfitCalc">
+    <link rel="apple-touch-icon" href="../logo.png">
+
     <script src="../assets/js/tailwind.js"></script>
     <script src="../assets/js/lucide.js"></script>
     <style>
@@ -23,7 +33,6 @@
             box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
         }
 
-        /* Estilo para el Modal */
         .modal-active { overflow: hidden; }
         .modal-bg { animation: fadeIn 0.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -49,7 +58,6 @@
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
 <a href="../index.html" class="no-print fixed top-6 left-6 z-50 flex items-center gap-2 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 transition-all group text-sm font-bold">
     <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i>
-    
 </a>
 <div class="card w-full max-w-lg bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 relative overflow-hidden">
     
@@ -216,5 +224,4 @@
 </script>
 </body>
 </html>
-
 

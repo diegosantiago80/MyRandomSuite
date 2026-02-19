@@ -1,0 +1,24 @@
+{
+    "name": "InversorPro - Calculadora de Interés Real",
+    "short_name": "InversorPro",
+    "description": "Análisis detallado de rendimientos y proyecciones de inversión con ajuste por inflación.",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#be185d",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "../logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "../logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
